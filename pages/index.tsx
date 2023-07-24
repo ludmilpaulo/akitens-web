@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css'
 import Navbar from '@/components/Navbar'
 import Searchbar from '@/components/Searchbar'
 import ImageSlide from '@/components/ImageSlide'
+import Card from '@/components/Card'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +22,7 @@ export default function Home() {
       <div>
       <Navbar />
       <Searchbar/>
-      <ImageSlide />
+      <Card />
     </div>
       
     </>

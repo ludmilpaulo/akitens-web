@@ -27,7 +27,7 @@ const Searchbar = () => {
              
               <div className="rounded-lg">
               <h1 className="text-white text-4xl font-semibold">Welcome to Our Website </h1>
-              <form onSubmit={handleSearch} className="flex items-center space-x-4 border-t border-blue-500 border-8 border-red-500">
+              <form onSubmit={handleSearch} className="flex items-center space-x-4 border-t border-blue-500 border-8 border-gray-800 ">
                   <input
                       type="text"
                       placeholder="Search..."
@@ -43,7 +43,7 @@ const Searchbar = () => {
 
                   <div className="relative">
                       <button
-                          className="px-4 py-2 bg-blue-500 text-white rounded focus:outline-none"
+                          className="px-4 py-2 bg-[#2a6a17] text-white rounded focus:outline-none"
                           onClick={toggleDropdown}
                       >
                           Menu
@@ -61,7 +61,7 @@ const Searchbar = () => {
 
                   <button
                       type="submit"
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded focus:outline-none"
+                      className="bg-[#FD9415] hover:bg-[#FD9415] text-white px-4 py-2 rounded focus:outline-none"
                   >
                       Search
                   </button>
