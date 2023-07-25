@@ -12,7 +12,7 @@ const Searchbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: any) => {
     e.preventDefault();
     // Implement your search logic here using the searchQuery state
     console.log('Searching for:', searchQuery);
