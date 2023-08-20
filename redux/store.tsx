@@ -1,4 +1,4 @@
-import { createStore, combineReducers, AnyAction } from 'redux';
+import { createStore, combineReducers, AnyAction, Store } from 'redux';
 import { MakeStore, createWrapper, Context } from 'next-redux-wrapper';
 import { authReducer } from './authReducer';
 import { AuthState } from './types';
@@ -11,6 +11,6 @@ const rootReducer = combineReducers<RootState>({
     auth: authReducer
 });
 
-const makeStore: MakeStore<RootState> = (context: Context) => createStore(rootReducer);
+const makeStore: MakeStore<Store<RootState, AnyAction>> = (context: Context) => createStore(rootReducer);
 
-export const wrapper = createWrapper<RootState>(makeStore);
+export const wrapper = createWrapper<Store<RootState, AnyAction>>(makeStore);
