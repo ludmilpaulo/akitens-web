@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react'; // Import Transition from @headlessui/react
 import { useDispatch } from 'react-redux';
+import { loginUser } from "../redux/authReducer";
+
 import { AuthActionTypes } from '../redux/types';
 import Navbar from '@/components/Navbar';
 
@@ -65,10 +67,14 @@ const SignupPage: React.FC = () => {
             });
     
             const result = await response.json();
+
             console.log("resultado", result);
     
             if (response.status === 201) {
-                dispatch({ type: AuthActionTypes.SIGNUP_SUCCESS, payload: result });
+                dispatch(loginUser(result));
+                alert(
+                "Você se conectou com sucesso Agora você pode saborear sua refeição",
+                );
                 console.log("Signup successful!", result);
             } else {
                 alert(result.error);

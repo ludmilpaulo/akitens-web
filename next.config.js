@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['www.sunshinedeliver.com'],
+    domains: ['taki.pythonanywhere.com'],
   },
   reactStrictMode: true,
 }

@@ -1,16 +1,35 @@
-import { createStore, combineReducers, AnyAction, Store } from 'redux';
-import { MakeStore, createWrapper, Context } from 'next-redux-wrapper';
-import { authReducer } from './authReducer';
-import { AuthState } from './types';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import authReducer from "./authReducer";
+import basketReducer from "./basketSlice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+import thunk from "redux-thunk";
 
-export interface RootState {
-    auth: AuthState;
-}
+const rootPersistConfig = {
+  key: "root",
+  storage,
+};
 
-const rootReducer = combineReducers<RootState>({
-    auth: authReducer
+const rootReducer = combineReducers({
+  basket: basketReducer, 
+  auth: authReducer,
 });
 
-const makeStore: MakeStore<Store<RootState, AnyAction>> = (context: Context) => createStore(rootReducer);
 
-export const wrapper = createWrapper<Store<RootState, AnyAction>>(makeStore);
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+
+export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
