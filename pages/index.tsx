@@ -7,10 +7,8 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import HomePage from "./HomePage";
 
-
 //const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-
-  return <HomePage />
+  return <HomePage />;
 }

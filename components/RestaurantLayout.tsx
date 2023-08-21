@@ -1,16 +1,13 @@
-import React, { ReactNode } from 'react';
-import Image from 'next/image';
-import { User } from '../redux/authReducer'; // Adjust the import path accordingly
-
-
+import React, { ReactNode } from "react";
+import Image from "next/image";
+import { User } from "../redux/authReducer"; // Adjust the import path accordingly
 
 type FornecedorLayoutProps = {
-    user: User;
-    fornecedor: FornecedorType | null;
-    children?: React.ReactNode;
-  };
+  user: User;
+  fornecedor: FornecedorType | null;
+  children?: React.ReactNode;
+};
 // ... rest of the code ...
-
 
 type UserType = {
   user_id?: number;
@@ -19,39 +16,42 @@ type UserType = {
 };
 
 type FornecedorType = {
-    id: number;
-    usuario: number;
-    nome_fornecedor: string;
-    telefone: string;
-    endereco: string;
-    logo: string;
-    licenca: string;
-    aprovado: boolean;
-    criado_em: string;
-    modificado_em: string;
-    children: ReactNode; 
+  id: number;
+  usuario: number;
+  nome_fornecedor: string;
+  telefone: string;
+  endereco: string;
+  logo: string;
+  licenca: string;
+  aprovado: boolean;
+  criado_em: string;
+  modificado_em: string;
+  children: ReactNode;
 };
 
-
-
-
-const RestaurantLayout: React.FC<FornecedorLayoutProps> = ({ user, fornecedor, children }) => {
+const RestaurantLayout: React.FC<FornecedorLayoutProps> = ({
+  user,
+  fornecedor,
+  children,
+}) => {
   // Your component logic here
-  
+
   return (
-    <div>
-      <h2>Welcome, {user.username}</h2>
+    <div className="relative h-full">
+      {" "}
+      {/* Adjust the height as needed */}
       {fornecedor && (
-        <div>
-          <h3>Fornecedor: {fornecedor.nome_fornecedor}</h3>
-          <Image src={fornecedor.logo} 
-          layout="fill"
-          alt={fornecedor.nome_fornecedor} />
-          {/* Add more details if necessary */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <Image
+            src={fornecedor.logo}
+            layout="fill"
+            objectFit="cover" // This ensures the image covers the entire div
+            alt={fornecedor.nome_fornecedor}
+            className="absolute z-0"
+          />
         </div>
       )}
-      
-      {children}
+      <div className="relative z-10">{children}</div>
     </div>
   );
 };
