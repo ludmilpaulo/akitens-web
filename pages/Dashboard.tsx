@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
         const fetchFornecedorData = async () => {
             if (user?.user_id) { 
                 try {
-                    const response = await fetch(`https://taki.pythonanywhere.com/api/get_fornecedor/?usuario_id=${user.user_id}`);
+                    const response = await fetch(`http://127.0.0.1:8000/api/get_fornecedor/?usuario_id=${user.user_id}`);
                     if (response.ok) {
                         const data = await response.json();
                        

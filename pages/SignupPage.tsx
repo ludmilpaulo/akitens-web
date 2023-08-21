@@ -5,6 +5,7 @@ import { loginUser } from "../redux/authReducer";
 
 import { AuthActionTypes } from '../redux/types';
 import Navbar from '@/components/Navbar';
+import Link from 'next/link';
 
 const SignupPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const SignupPage: React.FC = () => {
         });
 
         try {
-            const response = await fetch('https://taki.pythonanywhere.com/api/fornecedor-sign-up/', {
+            const response = await fetch('http://127.0.0.1:8000/api/fornecedor-sign-up/', {
                 method: 'POST',
                 body: formData
             });
@@ -94,6 +95,10 @@ const SignupPage: React.FC = () => {
         <div className="container mx-auto p-4">
 
             <h1 className="text-2xl mb-4">Cadastro</h1>
+
+            <div className="mt-4 self-center">
+                    Don't have an account? <Link href="/SignInPage" className="text-blue-500 hover:underline">Sign In</Link>
+                </div>
 
             <Transition
                 show={loading}

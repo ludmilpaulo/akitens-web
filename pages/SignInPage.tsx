@@ -1,8 +1,8 @@
-// SignInPage.tsx
-
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AuthActionTypes } from '../redux/types';
+import { Transition } from '@headlessui/react';
+import Link from 'next/link';
 
 const SignInPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -12,6 +12,8 @@ const SignInPage: React.FC = () => {
         password: "",
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prevState => ({ ...prevState, [name]: value }));
@@ -19,9 +21,10 @@ const SignInPage: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
 
         try {
-            const response = await fetch('https://taki.pythonanywhere.com/api/fornecedor-sign-in/', {
+            const response = await fetch('http://127.0.0.1:8000/api/fornecedor_sign_in/', {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: {
@@ -30,17 +33,19 @@ const SignInPage: React.FC = () => {
             });
 
             const result = await response.json();
+            console.log("lod", result)
+            setIsLoading(false);
 
             if (response.status === 200) {
-                console.log("Signin successful!", result);
+                alert(result.message)
                 dispatch({ type: AuthActionTypes.SIGNIN_SUCCESS, payload: result });
             } else {
                 dispatch({ type: AuthActionTypes.AUTH_ERROR, payload: result.error });
                 alert(result.error);
-                console.error("Signin failed:", result);
             }
         } catch (error) {
-            console.error("There was an error sending the signin data", error);
+            setIsLoading(false);
+            alert("There was an error sending the signin data");
         }
     };
 
@@ -53,6 +58,25 @@ const SignInPage: React.FC = () => {
                 <input type="password" name="password" placeholder="Senha" onChange={handleInputChange} className="p-2 border rounded" />
 
                 <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4 self-center">Entrar</button>
+                
+                <Transition
+                    show={isLoading}
+                    enter="transition-opacity duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-300"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="mt-4 self-center text-blue-600">Loading...</div>
+                </Transition>
+
+                <div className="mt-4 self-center">
+                    <Link href="/SignupPage" className="text-blue-500 hover:underline">Forgot password?</Link>
+                </div>
+                <div className="mt-4 self-center">
+                    Don't have an account? <Link href="/SignupPage" className="text-blue-500 hover:underline">Sign Up</Link>
+                </div>
             </form>
         </div>
     );
