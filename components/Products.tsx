@@ -6,6 +6,9 @@ import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { FaEdit, FaTrash } from 'react-icons/fa'; 
+import { useRouter } from "next/router";
+import { Transition } from "@headlessui/react"; 
 
 // Define the TypeScript type for a product based on the response structure.
 type Product = {
@@ -37,6 +40,11 @@ const Products: React.FC<ProductsProps> = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
+  // State to hold the product currently being edited.
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter(); 
 
   const {
     register,
@@ -46,6 +54,7 @@ const Products: React.FC<ProductsProps> = () => {
 
   useEffect(() => {
     const fetchCategorias = async () => {
+      setLoading(true);
       try {
         // Make an API call to fetch categories.
         const response = await fetch(`${local}/api/categorias/`);
@@ -53,6 +62,7 @@ const Products: React.FC<ProductsProps> = () => {
         if (response.ok) {
           const data = await response.json();
           setCategorias(data);
+          setLoading(false);
         } else {
           console.error("Failed to fetch categories");
         }
@@ -65,6 +75,7 @@ const Products: React.FC<ProductsProps> = () => {
   }, []);
 
   const onSubmit = async (data: Product) => {
+    setLoading(true);
     const formData = new FormData();
 
     for (const [key, value] of Object.entries(data)) {
@@ -82,13 +93,15 @@ const Products: React.FC<ProductsProps> = () => {
 
     try {
       const response = await fetch(`${local}/api/add-product/?`, {
-        // mode: 'no-cors',
+      // mode: 'no-cors',
         method: "POST",
         body: formData,
       });
       const result = await response.json();
+      alert("produto adicionado com sucesso");
+      setLoading(false);
 
-      console.log("resultado", result);
+      
 
       // ... rest of your code
     } catch (error) {
@@ -99,6 +112,8 @@ const Products: React.FC<ProductsProps> = () => {
   // useEffect hook to run the fetchProductData function once the component mounts or user changes.
   useEffect(() => {
     const fetchProductData = async () => {
+      setLoading(true);
+     
       if (user?.user_id) {
         try {
           // Make an API call to fetch products for the given user_id.
@@ -111,6 +126,7 @@ const Products: React.FC<ProductsProps> = () => {
             // If the data is valid, update the products state.
             if (data && data.length > 0) {
               setProducts(data);
+              setLoading(false);
             }
           } else {
             console.error("Failed to fetch product data");
@@ -123,8 +139,78 @@ const Products: React.FC<ProductsProps> = () => {
 
     fetchProductData();
   }, [user]);
+/////////////////////////////////8888*******************************************
+  const handleUpdate = async (productId: number, updatedProductData: Product) => {
+    try {
+      const response = await fetch(`${local}/api/update-product/${productId}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedProductData),
+      });
+  
+      if (response.ok) {
+        alert('Product updated successfully!');
+        // Optionally, update your local state with the updated product data
+        // Example: updateProductInState(productId, updatedProductData);
+      } else {
+        alert('Failed to update product. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating product:', error);
+      alert('An error occurred while trying to update the product. Please try again.');
+    }
+  };
+ ///////////////////################################################################ 
+
+  const handleDelete = async (productId: number) => {
+    const user_id = user?.user_id;  // Assuming user_id is available in user object
+
+    console.log("user", user_id)
+  
+    if (!user_id) {
+      alert('User ID not provided.');
+      return;
+    }
+  
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        const response = await fetch(`${local}/api/delete-product/${productId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ "user_id": user_id }),  // Corrected JSON format
+        });
+  
+        if (response.ok) {
+          alert('Product deleted successfully!');
+          setProducts(prevProducts => {
+            if (prevProducts) {
+              return prevProducts.filter(product => product.id !== productId);
+            } else {
+              return null; // Return null in case prevProducts is undefined
+            }
+          });
+          
+        } else {
+          alert('Failed to delete product. Please try again.');
+        }
+        
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        alert('An error occurred while trying to delete the product. Please try again.');
+      }
+    }
+  };
+  
+  
+
+
 
   return (
+    <>
     <div className="container mx-auto px-4">
       <div className="content-wrapper">
         <div className="page-header flex justify-center items-center">
@@ -136,27 +222,45 @@ const Products: React.FC<ProductsProps> = () => {
           </button>
         </div>
 
+           <Transition
+          show={loading}
+          enter="transition-opacity duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="w-full h-full fixed top-0 left-0 flex items-center justify-center z-50">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        </Transition>
+        <>
+        {!loading && (
+          <>
         {isModalOpen ? (
           <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg w-1/2">
               <h2 className="text-xl font-bold mb-4">Adicionar Produto</h2>
               <form onSubmit={handleSubmit(onSubmit)}>
+                 {/* Updated form fields to show data when editing */}
                 <div className="mb-4">
                   <label className="block mb-2">Nome</label>
                   <input
                     {...register("nome", { required: true })}
                     className="w-full p-2 border"
+                    defaultValue={editingProduct?.nome}
                   />
-                  {errors.nome && (
-                    <span className="text-red-500">Nome is required</span>
-                  )}
+                  {/* ... other form fields similarly */}
                 </div>
+                {/* ... other modal content */}
 
                 <div className="mb-4">
                   <label className="block mb-2">Descrição Curta</label>
                   <input
                     {...register("descricao_curta", { required: true })}
                     className="w-full p-2 border"
+                    defaultValue={editingProduct?.descricao_curta}
                   />
                   {errors.descricao_curta && (
                     <span className="text-red-500">
@@ -192,38 +296,42 @@ const Products: React.FC<ProductsProps> = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block mb-2">Categoria</label>
-                  <select
+                <label className="block mb-2">Categoria</label>
+                <input
+                    list="categorias"
                     {...register("categoria", { required: true })}
                     className="w-full p-2 border"
-                  >
+                />
+                <datalist id="categorias">
                     {categorias.map((categoria) => (
-                      <option key={categoria.id} value={categoria.id}>
-                        {categoria.nome}
-                      </option>
+                        <option key={categoria.id} value={categoria.nome} />
                     ))}
-                  </select>
+                </datalist>
 
-                  {errors.categoria && (
+                {errors.categoria && (
                     <span className="text-red-500">Categoria is required</span>
-                  )}
-                </div>
+                )}
+            </div>
+
 
                 {/* ... (Add other form fields similarly) */}
 
                 <div className="flex justify-end mt-4">
-                  <button
-                    type="submit"
-                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-                  >
-                    Salvar
-                  </button>
-                  <button
-                    onClick={() => setIsModalOpen(false)}
-                    className="ml-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-                  >
-                    Cancelar
-                  </button>
+                <button
+              type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+            >
+              {editingProduct ? "Update" : "Salvar"}
+            </button>
+            <button
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditingProduct(null);  // Reset the editing product when modal is closed.
+              }}
+              className="ml-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+            >
+              Cancelar
+            </button>
                 </div>
               </form>
             </div>
@@ -244,6 +352,7 @@ const Products: React.FC<ProductsProps> = () => {
                           </th>
                           <th className="py-2 px-4 border">Preço</th>
                           <th className="py-2 px-4 border">Imagem</th>
+                          <th className="py-2 px-4 border">Ações</th> {/* New Column for Actions */}
                         </tr>
                       </thead>
                       <tbody>
@@ -279,6 +388,33 @@ const Products: React.FC<ProductsProps> = () => {
                                 />
                               </div>
                             </td>
+
+                            <td className="py-2 px-4 border flex justify-around">
+                    {/* Edit Button */}
+                  <button
+                      className="text-blue-600 hover:text-blue-800 focus:outline-none"
+                      onClick={() => {
+                        if (editingProduct) {
+                          handleUpdate(product?.id || 0, editingProduct);
+                        } else {
+                          // Handle the case when editingProduct is null
+                          // For example, you can show an error message or take another action.
+                        }
+                      }}
+                    >
+                      <FaEdit />
+                    </button>
+
+                    {/* Delete Button */}
+                    <button
+                        className="text-red-600 hover:text-red-800 focus:outline-none"
+                        onClick={() => handleDelete(product?.id || 0)} // Assuming you have a handleDelete function
+                    >
+                        <FaTrash />
+                    </button>
+                </td>
+
+
                           </tr>
                         ))}
                       </tbody>
@@ -289,8 +425,12 @@ const Products: React.FC<ProductsProps> = () => {
             </div>
           </div>
         )}
+        </>
+        )}
+        </>
       </div>
     </div>
+    </>
   );
 };
 

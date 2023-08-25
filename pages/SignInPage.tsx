@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AuthActionTypes } from "../redux/types";
 import { Transition } from "@headlessui/react";
+import { useRouter } from "next/router";  
 import Link from "next/link";
 import { local } from "@/configs/variable";
 import { loginUser } from "@/redux/authReducer";
 
 const SignInPage: React.FC = () => {
   const dispatch = useDispatch();
+  const router = useRouter(); 
 
   const [formData, setFormData] = useState({
     username: "",
@@ -41,6 +43,10 @@ const SignInPage: React.FC = () => {
       if (response.status === 200) {
         alert(result.message);
         dispatch(loginUser(result));
+        // Check for fornecedor_id and if it's a non-empty string
+        if (result.fornecedor_id && result.fornecedor_id.trim() !== "") {
+            router.push("/Dashboard");  // Redirect to Dashboard
+          }
       } else {
         dispatch({ type: AuthActionTypes.AUTH_ERROR, payload: result.error });
         alert(result.error);

@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import { Transition } from "@headlessui/react"; // Import Transition from @headlessui/react
+import { Transition } from "@headlessui/react"; 
 import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/authReducer";
-
-import { AuthActionTypes } from "../redux/types";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { local } from "@/configs/variable";
+import { useRouter } from "next/router";
+
 
 const SignupPage: React.FC = () => {
   const dispatch = useDispatch();
+  const router = useRouter(); 
+
   const [signupData, setSignupData] = useState({
     username: "",
+    email: "",
     password: "",
     nome_fornecedor: "",
     telefone: "",
     endereco: "",
-    email: "",
     logo: null as File | null,
     licenca: null as File | null,
   });
@@ -24,6 +26,12 @@ const SignupPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [logoLoading, setLogoLoading] = useState(false);
   const [licencaLoading, setLicencaLoading] = useState(false);
+
+  const [role, setRole] = useState<"client" | "fornecedor">("client");
+
+  const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRole(e.target.value as "client" | "fornecedor");
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,14 +43,12 @@ const SignupPage: React.FC = () => {
     if (files) {
       if (name === "logo") {
         setLogoLoading(true);
-        // Simulate a delay for the upload. Remove this in a real use case.
         setTimeout(() => {
           setSignupData((prevState) => ({ ...prevState, [name]: files[0] }));
           setLogoLoading(false);
         }, 2000);
       } else if (name === "licenca") {
         setLicencaLoading(true);
-        // Simulate a delay for the upload. Remove this in a real use case.
         setTimeout(() => {
           setSignupData((prevState) => ({ ...prevState, [name]: files[0] }));
           setLicencaLoading(false);
@@ -56,36 +62,60 @@ const SignupPage: React.FC = () => {
     setLoading(true);
 
     const formData = new FormData();
-    Object.keys(signupData).forEach((key) => {
-      const value = signupData[key as keyof typeof signupData];
+
+    const data = role === "client"
+    ? {
+      username: signupData.username,
+      email: signupData.email,
+      password: signupData.password,
+    }
+    : signupData;
+
+(Object.keys(data) as Array<keyof typeof data>).forEach((key) => {
+    const value = data[key];
+    if (value !== null) formData.append(key, value as Blob | string);
+  });
+
+
+    /*
+    const data = role === "client"
+      ? {
+        username: signupData.username,
+        email: signupData.email,
+        password: signupData.password,
+      }
+      : signupData;
+
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
       if (value !== null) formData.append(key, value as Blob | string);
     });
+    */
+
+    const apiUrl = role === "client"
+      ? `${local}/api/client-sign-up/`
+      : `${local}/api/fornecedor-sign-up/`;
 
     try {
-      const response = await fetch(`${local}/api/fornecedor-sign-up/`, {
+      const response = await fetch(apiUrl, {
         method: "POST",
         body: formData,
       });
-
       const result = await response.json();
-
-      console.log("resultado", result);
-
+      console.log("signed up",result)
       if (response.status === 201) {
         dispatch(loginUser(result));
-        alert(
-          "Você se conectou com sucesso Agora você pode saborear sua refeição",
-        );
-        console.log("Signup successful!", result);
+        alert("Cadastro realizado com sucesso!");
+        if (result.fornecedor_id && result.fornecedor_id.trim() !== "") {
+          router.push("/Dashboard");  // Redirect to Dashboard
+        }
       } else {
         alert(result.error);
-        dispatch({ type: AuthActionTypes.SIGNUP_SUCCESS, payload: result });
-        console.error("Signup failed:", result);
       }
     } catch (error) {
       console.error("There was an error sending the signup data", error);
     } finally {
-      setLoading(false); // Set loading to false in a finally block to ensure it always gets turned off
+      setLoading(false);
     }
   };
 
@@ -94,12 +124,35 @@ const SignupPage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto p-4">
         <h1 className="text-2xl mb-4">Cadastro</h1>
-
         <div className="mt-4 self-center">
-        Se você já tem uma conta{" "}
-          <Link href="/SignInPage" className="text-blue-500 hover:underline">
-          Entrar
+          Se você já tem uma conta{" "}
+          <Link href="/SignInPage">
+            <p className="text-blue-500 hover:underline">Entrar</p>
           </Link>
+        </div>
+
+        {/* Role selection */}
+        <div className="mb-4">
+          <label className="mr-4">
+            <input
+              type="radio"
+              name="role"
+              value="client"
+              checked={role === "client"}
+              onChange={handleRoleChange}
+            />
+            Cliente
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="role"
+              value="fornecedor"
+              checked={role === "fornecedor"}
+              onChange={handleRoleChange}
+            />
+            Fornecedor de Negocio
+          </label>
         </div>
 
         <Transition
@@ -131,63 +184,66 @@ const SignupPage: React.FC = () => {
               onChange={handleInputChange}
               className="p-2 border rounded"
             />
-            <input
-              name="nome_fornecedor"
-              placeholder="Nome do Fornecedor ou do Negocio"
-              onChange={handleInputChange}
-              className="p-2 border rounded"
-            />
-            <input
-              name="telefone"
-              placeholder="Telefone"
-              onChange={handleInputChange}
-              className="p-2 border rounded"
-            />
-            <input
-              name="endereco"
-              placeholder="Endereço"
-              onChange={handleInputChange}
-              className="p-2 border rounded"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              onChange={handleInputChange}
-              className="p-2 border rounded"
-            />
-
-            <div className="relative">
-              <input
-                type="file"
-                name="logo"
-                onChange={handleFileChange}
-                className="p-2 border rounded absolute opacity-0 w-full h-full cursor-pointer"
-              />
-              <div className="p-2 border rounded cursor-pointer">
-                {logoLoading ? (
-                  <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-500 mx-auto"></span>
-                ) : (
-                  "Carregar o Logo"
-                )}
-              </div>
-            </div>
-
-            <div className="relative">
-              <input
-                type="file"
-                name="licenca"
-                onChange={handleFileChange}
-                className="p-2 border rounded absolute opacity-0 w-full h-full cursor-pointer"
-              />
-              <div className="p-2 border rounded cursor-pointer">
-                {licencaLoading ? (
-                  <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-500 mx-auto"></span>
-                ) : (
-                  "Carregar a Licença"
-                )}
-              </div>
-            </div>
+            
+            {role === "fornecedor" && (
+              <>
+                <input
+                  name="nome_fornecedor"
+                  placeholder="Nome do Fornecedor ou do Negocio"
+                  onChange={handleInputChange}
+                  className="p-2 border rounded"
+                />
+                <input
+                  name="telefone"
+                  placeholder="Telefone"
+                  onChange={handleInputChange}
+                  className="p-2 border rounded"
+                />
+                <input
+                  name="endereco"
+                  placeholder="Endereço"
+                  onChange={handleInputChange}
+                  className="p-2 border rounded"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  onChange={handleInputChange}
+                  className="p-2 border rounded"
+                />
+                <div className="relative">
+                  <input
+                    type="file"
+                    name="logo"
+                    onChange={handleFileChange}
+                    className="p-2 border rounded absolute opacity-0 w-full h-full cursor-pointer"
+                  />
+                  <div className="p-2 border rounded cursor-pointer">
+                    {logoLoading ? (
+                      <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-500 mx-auto"></span>
+                    ) : (
+                      "Carregar o Logo"
+                    )}
+                  </div>
+                </div>
+                <div className="relative">
+                  <input
+                    type="file"
+                    name="licenca"
+                    onChange={handleFileChange}
+                    className="p-2 border rounded absolute opacity-0 w-full h-full cursor-pointer"
+                  />
+                  <div className="p-2 border rounded cursor-pointer">
+                    {licencaLoading ? (
+                      <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-500 mx-auto"></span>
+                    ) : (
+                      "Carregar a Licença"
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
 
             <button
               type="submit"

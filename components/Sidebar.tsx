@@ -35,6 +35,8 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
   const [showProducts, setShowProducts] = useState(false);
 
+  console.log("fonecedordata", fornecedor)
+
   const dispatch = useDispatch();
   const router = useRouter();
 

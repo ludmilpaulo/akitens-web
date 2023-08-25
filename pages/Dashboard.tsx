@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import { RootState } from "@/redux/types";
 import { User } from "../redux/authReducer"; // Adjust the import path accordingly
 import { local } from "@/configs/variable";
+import withAuth from "@/auth/fornecedorAuth";
 
 type FornecedorType = {
   id: number;
@@ -23,6 +24,10 @@ type FornecedorType = {
 const Dashboard: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user) as User;
   const [fornecedor, setFornecedor] = useState<FornecedorType | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  console.log("usuario", user)
 
   useEffect(() => {
     const fetchFornecedorData = async () => {
@@ -49,11 +54,13 @@ const Dashboard: React.FC = () => {
   }, [user]);
 
   return (
-    <RestaurantLayout user={user} fornecedor={fornecedor}>
-      <Sidebar fornecedor={fornecedor} />
+    <div className="relative h-full">
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      {!loading && !error && <Sidebar fornecedor={fornecedor} />}
       {/* Render any other necessary components here */}
-    </RestaurantLayout>
+    </div>
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
