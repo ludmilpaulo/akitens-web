@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type User = {
-  user_id?: number;
+  user_id: number;
+  token: string;
   username: string;
   nome_fornecedor: string;
   telefone: string;
@@ -9,7 +10,8 @@ export type User = {
   email: string;
   logo: string;
   licenca: string;
-};
+}
+
 
 const initialState: { user: User | null } = {
   user: null,

@@ -4,6 +4,8 @@ export type AuthState = {
   isAuthenticated: boolean;
   user: null | {
     username: string;
+    token:string;
+    user_id:number;
     nome_fornecedor: string;
     telefone: string;
     endereco: string;
