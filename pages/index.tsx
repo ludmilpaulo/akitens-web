@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/authSlice";
 import HomeScreen from "./HomeScreen";
+// pages/index.tsx
+import '@next/font/google/target.css?{"path":"pages/index.tsx","import":"Inter","arguments":[{"subsets":["latin"]}],"variableName":"inter"}';
+
 
 const inter = Inter({ subsets: ["latin"] });
 

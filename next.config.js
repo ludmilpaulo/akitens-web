@@ -4,7 +4,7 @@ const nextConfig = {
     domains: ["taki.pythonanywhere.com"],
    // domains: ["127.0.0.1"],
   },
-  reactStrictMode: true,
+  //reactStrictMode: true,
 };
 
 module.exports = nextConfig;
