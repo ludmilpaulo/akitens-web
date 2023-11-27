@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import authReducer from "./authReducer";
-import basketReducer from "./basketSlice";
+import authReducer from "./slices/authSlice";
+import basketReducer from "./slices/basketSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
