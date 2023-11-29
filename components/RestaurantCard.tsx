@@ -42,7 +42,7 @@ export default function RestaurantCard({
           key={restaurant.id}
           className="relative flex flex-col p-4 bg-white shadow-lg bg-opacity-60 backdrop-filter backdrop-blur-lg rounded-xl"
         >
-          <div className="absolute top-0 left-0 p-2 bg-blue-500 text-white uppercase font-bold text-xs rounded-br-lg">
+          <div className="absolute top-0 left-0 p-2 bg-[#FE6400] text-white uppercase font-bold text-xs rounded-br-lg">
             {isOpen ? "Aberto" : "Fechado"}
           </div>
           <Image
@@ -70,7 +70,7 @@ export default function RestaurantCard({
               },
             }}
           >
-            <button className="mt-auto w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button className="mt-auto w-full bg-[#FE6400] hover:bg-[#FE6400] text-white font-bold py-2 px-4 rounded">
               Ver Menu do {restaurant.name}
             </button>
           </Link>

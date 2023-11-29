@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import logo from "../assets/azul.png";
+import logo from "../assets/AquiBg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/slices/authSlice";
 
@@ -97,6 +97,7 @@ const LoginScreenUser = () => {
               alt="logo"
               width={100}
               height={100}
+              className="w-64 h-64"
             />
           </div>
           <p className="text-2xl font-extrabold leading-6 text-gray-800">
@@ -142,7 +143,7 @@ const LoginScreenUser = () => {
               role="button"
               type="submit"
               aria-label="entrar na minha conta"
-              className="w-full py-4 text-sm font-semibold leading-none text-white bg-indigo-700 border rounded focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:outline-none hover:bg-indigo-600"
+              className="w-full py-4 text-sm font-semibold leading-none text-white bg-[#FE6400] border rounded focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:outline-none hover:bg-indigo-600"
             >
               Entrar na Minha Conta
             </button>

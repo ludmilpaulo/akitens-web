@@ -8,14 +8,14 @@ import {
 import { AiFillPhone } from "react-icons/ai";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../assets/logo.png";
+import logo from "../assets/Aqui.png";
 
 export default function Footer() {
   return (
-    <footer className="px-2 sm:px-4 md:px-6 lg:px-10 py-4 sm:py-6 md:py-10 text-xs sm:text-sm md:text-base text-white bg-[#0171CE]">
+    <footer className="px-2 sm:px-4 md:px-6 lg:px-10 py-4 sm:py-6 md:py-10 text-xs sm:text-sm md:text-base text-white bg-[#000023]">
       <div className="flex flex-col items-center space-y-4 sm:space-y-6 md:space-y-0 md:flex-row md:items-start md:space-x-4 lg:space-x-6 justify-between">
         <div className="mb-2 sm:mb-4">
-          <Image src={logo} alt="Logo" width={100} height={30} />
+          <Image src={logo} alt="Logo" width={100} height={100} className="w-64 h-64" />
         </div>
         <div className="mb-2 sm:mb-4 text-center md:text-left">
           <Link href={"/AboutPage"}>

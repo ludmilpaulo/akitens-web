@@ -8,8 +8,9 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
-import logo from "../assets/logo.png";
+import logo from "../assets/AquiBg.png";
 import { googleAPi } from "@/configs/variable";
+import HeaderTopArea from "./HeaderTopArea";
 
 const Nav = () => {
   const router = useRouter();
@@ -58,17 +59,17 @@ const Nav = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between p-6 max-w-full h-8 bg-[#0171CE]">
-      
+   
+    <nav className="flex items-center justify-between p-6 max-w-full bg-[#000023]">
+
       <div className="flex items-center">
         <Link href="/HomeScreen">
           <Image
             src={logo}
             alt="logo"
-            width={75}
-            height={10}
-            className="mr-2"
-          />
+            width={100}
+            height={100}
+            className="mr-2 w-60 h-34" />
         </Link>
 
         <div className="flex ml-16 space-x-4 rounded-full">

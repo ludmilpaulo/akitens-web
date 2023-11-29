@@ -60,7 +60,7 @@ function HomeScreen() {
           <Card onSelectCategory={(category) => setSearch(category)}/>
           
 
-          <div className="flex items-center justify-center px-4 sm:px-24 mx-4 sm:mx-24 border-2 border-[#0171CE] rounded-md mt-4">
+          <div className="flex items-center justify-center px-4 sm:px-24 mx-4 sm:mx-24 border-2 border-[#000023] rounded-md mt-4">
             <input
               type="text"
               className="w-full p-2 text-center sm:text-center rounded-l-md"

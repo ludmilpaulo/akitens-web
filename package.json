@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
-    "@next/font": "^14.0.3",
+    "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
@@ -19,6 +19,9 @@
     "axios": "^1.5.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.11",
+    "framer-motion": "^10.16.5",
+    "google-map-react": "^2.2.1",
+    "leaflet": "^1.9.4",
     "next": "13.4.11",
     "next-redux-wrapper": "^8.1.0",
     "postcss": "^8.4.27",
@@ -27,14 +30,18 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.4",
     "react-icons": "^4.10.1",
+    "react-leaflet": "^4.2.1",
     "react-redux": "^8.1.2",
     "react-slick": "^0.29.0",
+    "react-social-icons": "^6.7.0",
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "tailwindcss": "^3.3.3",
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@types/google-map-react": "^2.1.10",
+    "@types/react-leaflet": "^3.0.0",
     "@types/react-redux": "^7.1.25",
     "@types/redux": "^3.6.0",
     "prettier": "3.0.2"
