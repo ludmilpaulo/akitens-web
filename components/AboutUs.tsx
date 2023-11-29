@@ -18,19 +18,23 @@ const AboutUs: React.FC<Props> = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
-
+  
         const result = await response.json();
-        setData(result[0]); // Assuming the API response is an array with a single object
+        setData((prevData:any) => {
+          // Log the updated data
+          console.log("data about", prevData);
+          return result[0]; // Assuming the API response is an array with a single object
+        });
         setLoading(false);
       } catch (error) {
         setError('An error occurred while fetching data.');
         setLoading(false);
       }
     };
-
+  
     fetchData();
-    console.log("data about",data)
-  }, []);
+  }, []); // No need to include `data` in the dependency array
+  
 
 
   if (loading) {

@@ -45,18 +45,20 @@ const RestaurantMenu = () => {
     fetch(`https://www.sunshinedeliver.com/api/customer/meals/${res_ID}/`)
       .then((response) => response.json())
       .then((responseJson) => {
-        setFoods(responseJson.meals);
+        setFoods((prevFoods) => responseJson.meals);
         setData(responseJson.meals);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [res_ID]); // Add res_ID to the dependency array
+  }, [res_ID]);
+  
 
   useEffect(() => {
-    console.log("meals data", foods)
+    console.log("meals data", foods);
     fetchMeals();
-  }, [fetchMeals]);
+  }, [fetchMeals, foods]);
+  
 
   // Get unique category names
   const uniqueCategories = Array.from(

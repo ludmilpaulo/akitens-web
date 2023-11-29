@@ -26,25 +26,26 @@ const Social = () => {
 
  
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch('https://www.sunshinedeliver.com/api/information/');
-            if (!response.ok) {
-              throw new Error('Failed to fetch data');
-            }
-    
-            const result = await response.json();
-            setData(result[0]); // Assuming the API response is an array with a single object
-            setLoading(false);
-          } catch (error) {
-            setError('An error occurred while fetching data.');
-            setLoading(false);
+      const fetchData = async () => {
+        try {
+          const response = await fetch('https://www.sunshinedeliver.com/api/information/');
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
           }
-        };
     
-        fetchData();
-        console.log("data about",data)
-      }, []);
+          const result = await response.json();
+          setData(result[0]); // Assuming the API response is an array with a single object
+          setLoading(false);
+        } catch (error) {
+          setError('An error occurred while fetching data.');
+          setLoading(false);
+        }
+      };
+    
+      fetchData();
+      console.log("data about", data); // You can safely use data here
+    }, [data]); // Include data in the dependency array
+    
   return (
     <header className="sticky top-0 p-5 flex items-start justify-between max-w-7xl mx-auto z-20 xl:items-center">
       <motion.div

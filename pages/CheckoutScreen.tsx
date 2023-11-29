@@ -1,8 +1,3 @@
-
-Certainly, I understand that you're facing issues with TypeScript and react-leaflet. Let's try a workaround using a different approach to handle types more explicitly. Instead of using react-leaflet components directly, we'll manually create Leaflet map instances. Here's a modified version of your code:
-
-tsx
-Copy code
 import { useState, useEffect } from 'react';
 import { MapContainer as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngLiteral } from 'leaflet'; // Import LatLngLiteral
@@ -126,7 +121,8 @@ const CheckoutScreen = () => {
     getUserLocation();
   }, []);
 
-  const position = [location?.latitude, location?.longitude];
+  const position = [location?.lat, location?.lng];
+
 
   return (
     <div>

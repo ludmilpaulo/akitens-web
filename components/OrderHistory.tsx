@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FaTimesCircle } from 'react-icons/fa';
@@ -60,7 +60,7 @@ const OrderHistory: NextPage = () => {
   const user = useSelector(selectUser);
   let userData = user;
 
-  const fetchOrderHistory = async () => {
+  const fetchOrderHistory = useCallback(async () => {
     try {
       let response = await fetch('https://www.sunshinedeliver.com/api/customer/order/history/', {
         method: 'POST',
@@ -72,18 +72,20 @@ const OrderHistory: NextPage = () => {
           access_token: user.token,
         }),
       });
-
+  
       let responseJson = await response.json();
-
+  
       setOrderHistory(responseJson.order_history);
     } catch (error) {
       console.error(error);
     }
-  };
-
+  }, [user.token]);
+  
   useEffect(() => {
-    fetchOrderHistory();
-  }, []);
+    fetchOrderHistory(); // Call fetchOrderHistory directly
+  }, [fetchOrderHistory]);
+  
+  
 
   return (
     <div>
