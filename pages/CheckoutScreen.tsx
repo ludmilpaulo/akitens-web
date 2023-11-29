@@ -138,13 +138,13 @@ const CheckoutScreen = () => {
           value={userAddress}
         />
         <div
-          className="flex items-center justify-center w-full h-10 my-4 bg-blue-500 border border-blue-500 rounded-full cursor-pointer"
+          className="flex items-center justify-center w-full h-10 my-4 bg-[#000023] text-white border border-blue-500 rounded-full cursor-pointer"
           onClick={completeOrder}
         >
           <p>Pagar na entrega</p>
         </div>
         <div
-          className="flex items-center justify-center w-full h-10 bg-blue-500 border border-blue-500 rounded-full cursor-pointer"
+          className="flex items-center justify-center w-full h-10 bg-[#000023] text-white border border-blue-500 rounded-full cursor-pointer"
           onClick={completeOrder}
         >
           <p>FAÇA SEU PEDIDO</p>

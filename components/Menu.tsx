@@ -75,7 +75,7 @@ const Menu = ({ resId, food, resName, resImage, foods }: Meals) => {
   return (
     <div className="grid grid-cols-3 w-screen sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-4 py-4 px-4 mb-12">
       <div className="duration-300 w-full border rounded-lg shadow-lg hover:scale-105">
-        <div className="items-center p-2 bg-blue-500 text-white uppercase font-bold text-xs rounded-br-lg">
+        <div className="items-center p-2 bg-[#000023] text-white uppercase font-bold text-xs rounded-br-lg">
           <span>{food.price * qty}Kz</span>
         </div>
 
@@ -93,18 +93,18 @@ const Menu = ({ resId, food, resName, resImage, foods }: Meals) => {
         </div>
 
         <div className="flex items-center justify-between pb-3">
-          <FiMinusCircle onClick={quantityDown} size={40} color="#004AAD" />
+          <FiMinusCircle onClick={quantityDown} size={40} color="#000023" />
           {qty}
-          <FiPlusCircle onClick={quantityUp} size={40} color="#004AAD" />
+          <FiPlusCircle onClick={quantityUp} size={40} color="#000023" />
         </div>
 
         {isInCart && (
           <div className="animate-bounce items-center">
             <Link
               href="/CartScreen"
-              className="flex-row items-center bg-indigo-500 opacity-100 ..."
+              className="flex-row items-center bg-[#000023] opacity-100 ..."
             >
-              <div className="items-center p-2 bg-blue-500 text-white uppercase font-bold text-xs rounded-br-lg">
+              <div className="items-center p-2 bg-[#000023] text-white uppercase font-bold text-xs rounded-br-lg">
                 <span>
                   <FiShoppingCart size={24} />
                   Ir para a bandeja
@@ -116,10 +116,10 @@ const Menu = ({ resId, food, resName, resImage, foods }: Meals) => {
       </div>
 
       {cartItems.length > 0 && (
-        <div className="fixed bottom-10 right-10 bg-blue-600 text-white p-2 rounded-full shadow-lg">
+        <div className="fixed bottom-10 right-10 bg-[#000023] text-white p-2 rounded-full shadow-lg">
           <Link
             href="/CartScreen"
-            className="flex-row items-center bg-indigo-500 w-full h-25 opacity-100 ..."
+            className="flex-row items-center bg-[#000023] w-full h-25 opacity-100 ..."
           >
             <span>
               <FiShoppingCart size={24} />

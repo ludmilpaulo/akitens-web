@@ -66,7 +66,7 @@ function HomeScreen() {
               className="w-full p-2 text-center sm:text-center rounded-l-md"
               value={search}
               onChange={(event) => searchFilterFunction(event.target.value)}
-              placeholder="Pesquisar restaurantes"
+              placeholder="Pesquisar Lojas"
             />
           </div>
 

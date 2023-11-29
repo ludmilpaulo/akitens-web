@@ -79,7 +79,7 @@ const OrderHistory: NextPage = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [user.token]);
+  }, [user?.token]);
   
   useEffect(() => {
     fetchOrderHistory(); // Call fetchOrderHistory directly

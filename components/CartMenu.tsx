@@ -72,7 +72,7 @@ const CartMenu: React.FC = () => {
             <div className="flex space-x-4">
               <button
                 onClick={() => incrementQuantity(item)}
-                className="bg-blue-500 text-white p-2 rounded"
+                className="bg-[#000023] text-white p-2 rounded"
               >
                 +
               </button>

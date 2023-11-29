@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { basAPI } from "@/configs/variable";
-import logo from "../assets/azul.png";
+import logo from "../assets/AquiBg.png";
 import Nav from "@/components/Nav";
 
 const SignupScreen = () => {
@@ -160,12 +160,13 @@ const SignupScreen = () => {
           className="w-full p-10 mt-16 bg-white rounded shadow lg:w-1/3 md:w-1/2"
         >
          <div className="flex justify-center mb-6">
-              <Image
-                src={logo}
-                alt="Logo"
-                width={100}
-                height={100}
-              />
+         <Image
+              src={logo} // Update the path based on your project structure
+              alt="logo"
+              width={100}
+              height={100}
+              className="w-64 h-64"
+            />
             </div>
 
 

@@ -68,7 +68,7 @@ const UserDashboard: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
   return (
     <><Nav /><div className="flex h-screen">
 
-      <nav className="w-64 h-screen p-4 text-white bg-gray-800">
+      <nav className="w-64 h-screen p-4 text-white bg-[#000023]">
         <ul className="space-y-4">
           {/* Profile Section */}
           {userDetails && (

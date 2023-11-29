@@ -60,7 +60,7 @@ const Nav = () => {
 
   return (
    
-    <nav className="flex items-center justify-between p-6 max-w-full bg-[#000023]">
+    <nav className="flex items-center justify-between p-6 max-w-full h-24 bg-[#000023]">
 
       <div className="flex items-center">
         <Link href="/HomeScreen">
@@ -69,7 +69,7 @@ const Nav = () => {
             alt="logo"
             width={100}
             height={100}
-            className="mr-2 w-60 h-34" />
+            className="mr-2 w-40 h-40" />
         </Link>
 
         <div className="flex ml-16 space-x-4 rounded-full">
