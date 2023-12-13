@@ -82,7 +82,7 @@ const LoginScreenUser = () => {
           opacity-50
           -z-20"
         />
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center rounded-full">
         <motion.div
           animate={{
             scale: [1, 1, 1, 1, 1],

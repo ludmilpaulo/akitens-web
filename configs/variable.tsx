@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export const googleAPi = "AIzaSyDn1X_BlFj-57ydasP6uZK_X_WTERNJb78";
+export const googleAPi = "AIzaSyAALuGqF68jJ8v9_69tXtEcGkRdX5NgU1s";
 
 export const basAPI = "https://www.sunshinedeliver.com/";
 

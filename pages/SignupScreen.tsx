@@ -151,7 +151,7 @@ const SignupScreen = () => {
           opacity-50
           -z-20"
         />
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center rounded-full justify-center">
         <motion.div
           animate={{
             scale: [1, 1, 1, 1, 1],
