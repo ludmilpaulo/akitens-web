@@ -13,8 +13,8 @@ import {
 } from "@/redux/slices/basketSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const ResultsModal = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+const ResultsModal = ({ products, searchResults }: { products: Product[], searchResults: Product[] }) => {
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(true); // State variable to track modal visibility
   const dispatch = useDispatch();
@@ -56,23 +56,7 @@ const ResultsModal = () => {
     setIsModalOpen(false); // Set modal visibility to false when closing
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        if (shopId) {
-          const response = await fetch(
-            `${basAPI}/shops/get-products-by-shops/?shop_id=${shopId}`
-          );
-          const data = await response.json();
-          setProducts(data);
-        }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, [shopId]);
+  
 
   useEffect(() => {
     let interval: NodeJS.Timeout;

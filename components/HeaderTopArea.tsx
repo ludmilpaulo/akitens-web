@@ -204,7 +204,7 @@ function HeaderTopArea() {
       </div>
     </header><>
         {/* Conditionally render SearchResults */}
-        {isSearchResultsOpen && <ResultsModal products={[]} searchResults={searchResults} />}
+        {isSearchResultsOpen && <ResultsModal products={searchResults} searchResults={searchResults} />}
       </></>
   );
 }

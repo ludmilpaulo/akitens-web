@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 import React, { useState, useEffect } from "react";
 export const googleAPi = "AIzaSyAALuGqF68jJ8v9_69tXtEcGkRdX5NgU1s";
 
-//export const basAPI = "https://taki.pythonanywhere.com";
+export const basAPI = "https://taki.pythonanywhere.com";
 
-export const basAPI = "http://127.0.0.1:8000";
+//export const basAPI = "http://127.0.0.1:8000";
 
 
 export type UserDetails = {
