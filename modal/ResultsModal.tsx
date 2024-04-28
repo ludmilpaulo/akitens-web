@@ -13,17 +13,22 @@ import {
 } from "@/redux/slices/basketSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const ResultsModal = ({ products, searchResults }: { products: Product[], searchResults: Product[] }) => {
-  
+const ResultsModal = ({
+  products,
+  searchResults,
+}: {
+  products: Product[];
+  searchResults: Product[];
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(true); // State variable to track modal visibility
   const dispatch = useDispatch();
   const cart = useSelector(selectCartItems);
 
   const searchParams = useSearchParams();
-  const shopId = searchParams.get('shopId') || '';
-  const shopName = searchParams.get('shopName') || '';
-  const shopImage_url = searchParams.get('shopImage_url') || '';
+  const shopId = searchParams.get("shopId") || "";
+  const shopName = searchParams.get("shopName") || "";
+  const shopImage_url = searchParams.get("shopImage_url") || "";
 
   const headerData = useHeaderData();
 
@@ -33,7 +38,16 @@ const ResultsModal = ({ products, searchResults }: { products: Product[], search
       .reduce((total, item) => total + item.quantity, 0);
 
   const handleAdd = (product: Product) => {
-    const { id, title, price, description, rating, category, image_urls, quantity } = product;
+    const {
+      id,
+      title,
+      price,
+      description,
+      rating,
+      category,
+      image_urls,
+      quantity,
+    } = product;
     const productWithShopInfo: Product = {
       id,
       title,
@@ -56,8 +70,6 @@ const ResultsModal = ({ products, searchResults }: { products: Product[], search
     setIsModalOpen(false); // Set modal visibility to false when closing
   };
 
-  
-
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -66,7 +78,7 @@ const ResultsModal = ({ products, searchResults }: { products: Product[], search
         setCurrentImageIndex((prevIndex) =>
           prevIndex === products[currentImageIndex]?.image_urls.length - 1
             ? 0
-            : prevIndex + 1
+            : prevIndex + 1,
         );
       }, 5000);
     }
@@ -83,8 +95,19 @@ const ResultsModal = ({ products, searchResults }: { products: Product[], search
               onClick={handleCloseModal}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
               </svg>
             </button>
             <main className="flex-1">

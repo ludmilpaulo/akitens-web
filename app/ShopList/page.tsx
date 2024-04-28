@@ -9,12 +9,11 @@ import withAuth from "@/components/ProtectedPage";
 
 function ShopList() {
   const searchParams = useSearchParams();
-  const  category_id  = searchParams.get('category_id') || ''; 
+  const category_id = searchParams.get("category_id") || "";
 
   const [category, setCategory] = useState<Category | null>(null);
   const [shops, setShops] = useState<Shop[]>([]);
 
-  
   const headerData = useHeaderData();
 
   useEffect(() => {

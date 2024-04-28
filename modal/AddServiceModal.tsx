@@ -23,7 +23,6 @@ const AddServiceModal: React.FC<AddServiceModalProps> = ({
     description: "",
   });
 
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -85,7 +84,7 @@ const AddServiceModal: React.FC<AddServiceModalProps> = ({
 
         // Clear file input field
         const fileInput = document.getElementById(
-          "fileInput"
+          "fileInput",
         ) as HTMLInputElement;
         if (fileInput) {
           fileInput.value = "";
@@ -93,102 +92,103 @@ const AddServiceModal: React.FC<AddServiceModalProps> = ({
       } else {
         console.error("Failed to add service");
         alert("Failed to add service. Please try again.");
-        setLoading(false)
+        setLoading(false);
       }
     } catch (error) {
       console.error("An exception occurred:", error);
-      alert("An exception occurred while adding the service. Please try again.");
+      alert(
+        "An exception occurred while adding the service. Please try again.",
+      );
     }
   };
 
   return (
     <>
-    {isOpen && (
-      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
-        <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg">
-          <h2 className="mb-4 text-xl font-bold">Adicionar Serviço</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block mb-2">Nome</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                className="w-full p-2 border"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">Descrição Curta</label>
-              <input
-                type="text"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                className="w-full p-2 border"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">Imagens</label>
-              <input
-                id="fileInput"
-                type="file"
-                name="images"
-                onChange={handleFileChange}
-                multiple
-                className="w-full p-2 border"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">Categoria</label>
-              <div className="flex">
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  className="flex-grow p-2 border mr-2"
-                >
-                  <option value="">Selecione uma categoria</option>
-                  {/* Default option */}
-                  {categorias.map((categoria) => (
-                    <option key={categoria.id} value={categoria.slug}>
-                      {categoria.name}
-                    </option>
-                  ))}
-                </select>
+      {isOpen && (
+        <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+          <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg">
+            <h2 className="mb-4 text-xl font-bold">Adicionar Serviço</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block mb-2">Nome</label>
                 <input
                   type="text"
-                  placeholder="Digite a categoria"
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-                  }
-                  className="flex-none p-2 border"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border"
                 />
               </div>
-            </div>
-  
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full md:w-auto px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
-              >
-                {loading ? "Salvando..." : "Salvar"}
-              </button>
-              <button
-                onClick={onClose}
-                className="w-full md:w-auto px-4 py-2 mt-4 md:mt-0 ml-0 md:ml-4 text-white bg-red-500 rounded hover:bg-red-600"
-              >
-                Cancelar
-              </button>
-            </div>
-          </form>
+              <div>
+                <label className="block mb-2">Descrição Curta</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border"
+                />
+              </div>
+              <div>
+                <label className="block mb-2">Imagens</label>
+                <input
+                  id="fileInput"
+                  type="file"
+                  name="images"
+                  onChange={handleFileChange}
+                  multiple
+                  className="w-full p-2 border"
+                />
+              </div>
+              <div>
+                <label className="block mb-2">Categoria</label>
+                <div className="flex">
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    className="flex-grow p-2 border mr-2"
+                  >
+                    <option value="">Selecione uma categoria</option>
+                    {/* Default option */}
+                    {categorias.map((categoria) => (
+                      <option key={categoria.id} value={categoria.slug}>
+                        {categoria.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Digite a categoria"
+                    value={formData.category}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
+                    className="flex-none p-2 border"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full md:w-auto px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
+                >
+                  {loading ? "Salvando..." : "Salvar"}
+                </button>
+                <button
+                  onClick={onClose}
+                  className="w-full md:w-auto px-4 py-2 mt-4 md:mt-0 ml-0 md:ml-4 text-white bg-red-500 rounded hover:bg-red-600"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    )}
-  </>
-  
+      )}
+    </>
   );
 };
 

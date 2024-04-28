@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { basAPI } from '@/configs/variable';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { basAPI } from "@/configs/variable";
 
 function useSearch() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
- // const router = useRouter();
+  // const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ function useSearch() {
       const data = await response.json();
       setSearchResults(data);
     } catch (error) {
-      console.error('Error searching products:', error);
+      console.error("Error searching products:", error);
     }
   };
 

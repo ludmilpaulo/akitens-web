@@ -8,7 +8,7 @@ import { logoutUser, selectUser } from "../redux/slices/authSlice";
 import { basAPI, googleAPi } from "../configs/variable";
 
 import withAuth from "@/components/ProtectedPage";
-import { MdClose } from 'react-icons/md'; // Import the close icon
+import { MdClose } from "react-icons/md"; // Import the close icon
 
 type ImageInfo = {
   uri: string;
@@ -91,13 +91,16 @@ const UserProfile: React.FC = () => {
     formData.append("phone", phone);
 
     try {
-      const response = await fetch(`${basAPI}/accounts/customer/profile/update/`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
+      const response = await fetch(
+        `${basAPI}/accounts/customer/profile/update/`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: formData,
         },
-        body: formData,
-      });
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -119,86 +122,91 @@ const UserProfile: React.FC = () => {
 
   return (
     <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-75 z-50">
-    <div className="bg-white p-4 md:p-8 rounded-lg relative w-full max-w-md"> {/* Add max width and adjust padding */}
-      <button
-        onClick={() => router.back()} // Navigate to HomeScreen in Next.js
-        className="absolute top-2 right-2 md:top-4 md:right-4 text-gray-600 hover:text-gray-900"
-      >
-        <MdClose size={24} /> {/* Adjust the size of the close icon */}
-      </button>
-      <h2 className="text-xl font-semibold mb-4">Complete seu perfil</h2>
-      <div className="flex flex-col items-center space-y-5">
-        <div className="w-32 h-32 md:w-48 md:h-48 mt-4 overflow-hidden rounded-full"> {/* Adjust image size */}
-          {imageInfo && (
-            <Image
-              src={URL.createObjectURL(imageInfo)}
-              alt="User Image"
-              width={192}
-              height={192}
-              layout="responsive"
-              unoptimized={true} // because blob URLs aren't optimized by default
+      <div className="bg-white p-4 md:p-8 rounded-lg relative w-full max-w-md">
+        {" "}
+        {/* Add max width and adjust padding */}
+        <button
+          onClick={() => router.back()} // Navigate to HomeScreen in Next.js
+          className="absolute top-2 right-2 md:top-4 md:right-4 text-gray-600 hover:text-gray-900"
+        >
+          <MdClose size={24} /> {/* Adjust the size of the close icon */}
+        </button>
+        <h2 className="text-xl font-semibold mb-4">Complete seu perfil</h2>
+        <div className="flex flex-col items-center space-y-5">
+          <div className="w-32 h-32 md:w-48 md:h-48 mt-4 overflow-hidden rounded-full">
+            {" "}
+            {/* Adjust image size */}
+            {imageInfo && (
+              <Image
+                src={URL.createObjectURL(imageInfo)}
+                alt="User Image"
+                width={192}
+                height={192}
+                layout="responsive"
+                unoptimized={true} // because blob URLs aren't optimized by default
+              />
+            )}
+          </div>
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              capture
+              onChange={handleTakePhotoOrSelect}
             />
-          )}
-        </div>
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            capture
-            onChange={handleTakePhotoOrSelect}
-          />
-        </div>
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleTakePhotoOrSelect}
-          />
-        </div>
-        <div className="w-full mx-6 md:mx-12"> {/* Adjust input field margin */}
-          <input
-            className="w-full p-2 md:p-4 border rounded"
-            placeholder="Primeiro Nome"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <input
-            className="w-full p-2 md:p-4 mt-2 md:mt-5 border rounded"
-            placeholder="Ultimo Nome"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <input
-            className="w-full p-2 md:p-4 mt-2 md:mt-5 border rounded"
-            placeholder="Número de Telefone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
-        <div className="w-full">
-          <input
-            className="w-full p-2 md:p-4 mt-2 md:mt-5 border rounded"
-            placeholder="Endereco"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </div>
-        <div>
-          <button
-            className="p-2 md:p-4 mt-2 md:mt-5 text-white bg-blue-500 rounded"
-            onClick={userUpdate}
-          >
-            Atualize seu Perfil
-          </button>
+          </div>
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleTakePhotoOrSelect}
+            />
+          </div>
+          <div className="w-full mx-6 md:mx-12">
+            {" "}
+            {/* Adjust input field margin */}
+            <input
+              className="w-full p-2 md:p-4 border rounded"
+              placeholder="Primeiro Nome"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <input
+              className="w-full p-2 md:p-4 mt-2 md:mt-5 border rounded"
+              placeholder="Ultimo Nome"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <input
+              className="w-full p-2 md:p-4 mt-2 md:mt-5 border rounded"
+              placeholder="Número de Telefone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <div className="w-full">
+            <input
+              className="w-full p-2 md:p-4 mt-2 md:mt-5 border rounded"
+              placeholder="Endereco"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+          <div>
+            <button
+              className="p-2 md:p-4 mt-2 md:mt-5 text-white bg-blue-500 rounded"
+              onClick={userUpdate}
+            >
+              Atualize seu Perfil
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
   );
 };
 

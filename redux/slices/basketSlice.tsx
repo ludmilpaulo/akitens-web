@@ -2,10 +2,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-
-
 export type Product = {
-  shop : number;
+  shop: number;
   shopId: number;
   shopName: string;
   shopImage_url: string;

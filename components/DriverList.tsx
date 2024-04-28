@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Image from 'next/image';
-import { basAPI } from '@/configs/variable';
-import { selectUser } from '@/redux/slices/authSlice';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Image from "next/image";
+import { basAPI } from "@/configs/variable";
+import { selectUser } from "@/redux/slices/authSlice";
+import { useSelector } from "react-redux";
 
 interface Driver {
   id: number;
@@ -19,8 +19,8 @@ interface Props {
 
 const DriverList: React.FC = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
 
   const user = useSelector(selectUser);
 
@@ -30,10 +30,12 @@ const DriverList: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${basAPI}/report/shop/drivers/${user.user_id}/`);
+      const response = await axios.get(
+        `${basAPI}/report/shop/drivers/${user.user_id}/`,
+      );
       setDrivers(response.data);
     } catch (error) {
-      console.error('Error fetching customers:', error);
+      console.error("Error fetching customers:", error);
     }
   };
 
@@ -50,7 +52,9 @@ const DriverList: React.FC = () => {
                 <div className="font-normal leading-none opacity-70">Phone</div>
               </th>
               <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
-                <div className="font-normal leading-none opacity-70">Address</div>
+                <div className="font-normal leading-none opacity-70">
+                  Address
+                </div>
               </th>
             </tr>
           </thead>
@@ -60,7 +64,13 @@ const DriverList: React.FC = () => {
                 <td className="border-y border-blue-gray-100 p-4">
                   <div className="flex items-center gap-3">
                     <div className="bg-gray-200 rounded-full overflow-hidden w-10 h-10">
-                      <Image src={`${basAPI}${driver.avatar}`} alt={driver.username} width={40} height={40} className="w-full h-full object-cover" />
+                      <Image
+                        src={`${basAPI}${driver.avatar}`}
+                        alt={driver.username}
+                        width={40}
+                        height={40}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="flex flex-col">
                       <div className="font-normal">{driver.username}</div>

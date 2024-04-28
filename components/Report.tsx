@@ -1,11 +1,11 @@
-import { basAPI } from '@/configs/variable';
-import { selectUser } from '@/redux/slices/authSlice';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import dynamic from 'next/dynamic';
+import { basAPI } from "@/configs/variable";
+import { selectUser } from "@/redux/slices/authSlice";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import dynamic from "next/dynamic";
 
 // Dynamically import ApexCharts to prevent SSR issues
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface ReportData {
   revenue: number[];
@@ -31,12 +31,12 @@ const Report: React.FC = () => {
       try {
         const response = await fetch(`${basAPI}/report/shop/${user.user_id}/`);
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
         const responseData: ReportData = await response.json();
         setData(responseData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -54,10 +54,12 @@ const Report: React.FC = () => {
           <div className="p-4">
             <Chart
               options={{
-                chart: { id: 'revenue-chart' },
-                xaxis: { categories: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] },
+                chart: { id: "revenue-chart" },
+                xaxis: {
+                  categories: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                },
               }}
-              series={[{ name: 'Revenue', data: data.revenue }]}
+              series={[{ name: "Revenue", data: data.revenue }]}
               type="bar"
             />
           </div>
@@ -65,15 +67,19 @@ const Report: React.FC = () => {
 
         <div className="border border-gray-300 rounded-lg overflow-hidden">
           <div className="bg-indigo-200 py-2 px-4">
-            <h2 className="text-black font-bold text-lg">Número de encomendas</h2>
+            <h2 className="text-black font-bold text-lg">
+              Número de encomendas
+            </h2>
           </div>
           <div className="p-4">
             <Chart
               options={{
-                chart: { id: 'orders-chart' },
-                xaxis: { categories: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] },
+                chart: { id: "orders-chart" },
+                xaxis: {
+                  categories: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                },
               }}
-              series={[{ name: 'Number of Orders', data: data.orders }]}
+              series={[{ name: "Number of Orders", data: data.orders }]}
               type="bar"
             />
           </div>
@@ -81,7 +87,9 @@ const Report: React.FC = () => {
 
         <div className="border border-gray-300 rounded-lg overflow-hidden">
           <div className="bg-indigo-200 py-2 px-4">
-            <h2 className="text-black font-bold text-lg">3 principais produtos</h2>
+            <h2 className="text-black font-bold text-lg">
+              3 principais produtos
+            </h2>
           </div>
           <div className="p-4">
             {data.products && (
@@ -96,7 +104,9 @@ const Report: React.FC = () => {
 
         <div className="border border-gray-300 rounded-lg overflow-hidden">
           <div className="bg-indigo-200 py-2 px-4">
-            <h2 className="text-black font-bold text-lg">3 principais motoristas</h2>
+            <h2 className="text-black font-bold text-lg">
+              3 principais motoristas
+            </h2>
           </div>
           <div className="p-4">
             {data.drivers && (
@@ -111,7 +121,9 @@ const Report: React.FC = () => {
 
         <div className="border border-gray-300 rounded-lg overflow-hidden">
           <div className="bg-indigo-200 py-2 px-4">
-            <h2 className="text-black font-bold text-lg">3 principais clientes</h2>
+            <h2 className="text-black font-bold text-lg">
+              3 principais clientes
+            </h2>
           </div>
           <div className="p-4">
             {data.customers && (

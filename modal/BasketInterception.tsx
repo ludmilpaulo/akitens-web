@@ -15,7 +15,6 @@ const BasketInterception = () => {
   return (
     <div>
       {/* Modal toggle */}
-    
 
       {/* Main modal */}
       {isOpen && (

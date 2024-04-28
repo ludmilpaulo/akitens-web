@@ -10,39 +10,40 @@ interface ServiceTableRowProps {
   handleDelete: (serviceId: number) => void; // Changed from productId to serviceId
 }
 
-const ServiceTableRow: React.FC<ServiceTableRowProps> = ({ // Changed from ProductTableRow to ServiceTableRow
+const ServiceTableRow: React.FC<ServiceTableRowProps> = ({
+  // Changed from ProductTableRow to ServiceTableRow
   service, // Changed from product to service
   index,
   handleDelete,
 }) => {
   return (
     <tr className="table-info">
-      <td className="px-4 py-2 border">{service.id}</td> 
+      <td className="px-4 py-2 border">{service.id}</td>
       <td className="px-4 py-2 text-black border">
-        <Link href={`/restaurant/edit-service/${service.id}`}> 
-          <p className="text-black">{service.title}</p> 
+        <Link href={`/restaurant/edit-service/${service.id}`}>
+          <p className="text-black">{service.title}</p>
         </Link>
       </td>
-      <td className="px-4 py-2 border">{service.description}</td> 
-      
+      <td className="px-4 py-2 border">{service.description}</td>
+
       <td className="px-4 py-2 border">
         <div className="relative h-16 w-16">
-        {typeof service.image_urls[0] === 'string' && service.image_urls[0].length > 0 ? (
-  <Image
-    className="object-cover rounded-full"
-    src={service.image_urls[0] as string}
-    layout="fill"
-    alt={service.title}
-  />
-) : (
-  <Image
-    className="object-cover rounded-full"
-    src="/path/to/default/image.png"
-    layout="fill"
-    alt={service.title}
-  />
-)}
-
+          {typeof service.image_urls[0] === "string" &&
+          service.image_urls[0].length > 0 ? (
+            <Image
+              className="object-cover rounded-full"
+              src={service.image_urls[0] as string}
+              layout="fill"
+              alt={service.title}
+            />
+          ) : (
+            <Image
+              className="object-cover rounded-full"
+              src="/path/to/default/image.png"
+              layout="fill"
+              alt={service.title}
+            />
+          )}
         </div>
       </td>
       <td className="flex justify-around px-4 py-2 border">

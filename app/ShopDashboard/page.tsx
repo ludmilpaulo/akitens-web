@@ -45,21 +45,20 @@ const ShopDashboard: React.FC = () => {
   return (
     <div className="relative h-full">
       <Transition
-            show={loading}
-            enter="transition-opacity duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-           {loading && (
-  <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full">
-    <div className="w-32 h-32 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
-  </div>
-)}
-
-          </Transition>
+        show={loading}
+        enter="transition-opacity duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-300"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+      >
+        {loading && (
+          <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full">
+            <div className="w-32 h-32 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+          </div>
+        )}
+      </Transition>
 
       {error && <p>Error: {error}</p>}
       {!loading && !error && <Sidebar fornecedor={fornecedor} />}

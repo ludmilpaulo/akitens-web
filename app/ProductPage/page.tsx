@@ -36,19 +36,17 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector(selectCartItems);
 
-const searchParams = useSearchParams();
-const productId = searchParams.get('productId') || '';
-const productTitle = searchParams.get('productTitle') || '';
-const productImage = searchParams.getAll('productImage') || [];
-const productPrice = searchParams.get('productPrice') || '';
-const productDescription = searchParams.get('productDescription') || '';
-const productRatings = searchParams.get('productRatings') || '';
-const shopId = searchParams.get('shopId') || '';
-const shopName = searchParams.get('shopName') || '';
-const shopImage_url = searchParams.get('shopImage_url') || '';
-const producCategory = searchParams.get('producCategory') || '';
-
-
+  const searchParams = useSearchParams();
+  const productId = searchParams.get("productId") || "";
+  const productTitle = searchParams.get("productTitle") || "";
+  const productImage = searchParams.getAll("productImage") || [];
+  const productPrice = searchParams.get("productPrice") || "";
+  const productDescription = searchParams.get("productDescription") || "";
+  const productRatings = searchParams.get("productRatings") || "";
+  const shopId = searchParams.get("shopId") || "";
+  const shopName = searchParams.get("shopName") || "";
+  const shopImage_url = searchParams.get("shopImage_url") || "";
+  const producCategory = searchParams.get("producCategory") || "";
 
   const parsedProductId =
     typeof productId === "string" ? parseInt(productId, 10) : NaN;
@@ -81,18 +79,18 @@ const producCategory = searchParams.get('producCategory') || '';
     images: Array.isArray(productImage)
       ? productImage
       : typeof productImage === "string"
-      ? [productImage]
-      : [],
+        ? [productImage]
+        : [],
     image_urls: Array.isArray(productImage)
       ? productImage.join(",")
       : typeof productImage === "string"
-      ? productImage
-      : "",
+        ? productImage
+        : "",
     rating: ratings,
     description,
     quantity: 1,
   };
-  
+
   const howManyInCart = cart
     .filter((item) => item.id === productDetails.id)
     .reduce((total, item) => total + item.quantity, 0);
@@ -104,8 +102,15 @@ const producCategory = searchParams.get('producCategory') || '';
   console.log("product all details", productDetails);
 
   return (
-    <main className="flex-1" style={{ backgroundImage: `url(${headerData?.backgroundApp})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-     
+    <main
+      className="flex-1"
+      style={{
+        backgroundImage: `url(${headerData?.backgroundApp})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="p-4 lg:p-10 flex flex-col lg:flex-row w-full">
         <div className="hidden lg:inline space-y-4">
           {Array.isArray(productImage) &&

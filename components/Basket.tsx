@@ -40,21 +40,22 @@ function Basket() {
               {items.map((item) => (
                 <li key={item.id} className="flex items-center justify-between">
                   <div className="flex space-x-4">
-                    {Array.isArray(item.image_urls) && item.image_urls.length > 0 && (
-                      <div className="w-16 h-16 relative">
-                        <Image
-                          src={
-                            typeof item.image_urls[0] === "string"
-                              ? item.image_urls[0]
-                              : JSON.stringify(item.image_urls[0])
-                          }
-                          alt={item.title}
-                          layout="fill"
-                          objectFit="cover"
-                          className="rounded-md"
-                        />
-                      </div>
-                    )}
+                    {Array.isArray(item.image_urls) &&
+                      item.image_urls.length > 0 && (
+                        <div className="w-16 h-16 relative">
+                          <Image
+                            src={
+                              typeof item.image_urls[0] === "string"
+                                ? item.image_urls[0]
+                                : JSON.stringify(item.image_urls[0])
+                            }
+                            alt={item.title}
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-md"
+                          />
+                        </div>
+                      )}
                     <div>
                       <p className="font-semibold">{item.title}</p>
                       {/* Uncomment below line if you want to show the description */}

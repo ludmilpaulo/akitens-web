@@ -21,9 +21,9 @@ const ProductList = () => {
   const cart = useSelector(selectCartItems);
 
   const searchParams = useSearchParams();
-  const shopId = searchParams.get('shopId') || '';
-  const shopName = searchParams.get('shopName') || '';
-  const shopImage_url = searchParams.get('shopImage_url') || '';
+  const shopId = searchParams.get("shopId") || "";
+  const shopName = searchParams.get("shopName") || "";
+  const shopImage_url = searchParams.get("shopImage_url") || "";
 
   const headerData = useHeaderData();
 
@@ -32,33 +32,41 @@ const ProductList = () => {
       .filter((item) => item.id === product.id)
       .reduce((total, item) => total + item.quantity, 0);
 
-      const handleAdd = (product: Product) => {
-        const { id, title, price, description, rating, category, image_urls, quantity } = product;
-        const productWithShopInfo: Product = {
-          id,
-          title,
-          price,
-          description,
-          rating,
-          category,
-          image_urls,
-          shop: parseInt(shopId), // Assuming shop is of type number
-          shopId: parseInt(shopId),
-          shopName,
-          shopImage_url,
-          images: [], // Assuming images is of type string | File[]
-          quantity, // Assuming quantity is available in the product object
-        };
-        dispatch(updateBasket(productWithShopInfo));
-      };
-    
+  const handleAdd = (product: Product) => {
+    const {
+      id,
+      title,
+      price,
+      description,
+      rating,
+      category,
+      image_urls,
+      quantity,
+    } = product;
+    const productWithShopInfo: Product = {
+      id,
+      title,
+      price,
+      description,
+      rating,
+      category,
+      image_urls,
+      shop: parseInt(shopId), // Assuming shop is of type number
+      shopId: parseInt(shopId),
+      shopName,
+      shopImage_url,
+      images: [], // Assuming images is of type string | File[]
+      quantity, // Assuming quantity is available in the product object
+    };
+    dispatch(updateBasket(productWithShopInfo));
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         if (shopId) {
           const response = await fetch(
-            `${basAPI}/shops/get-products-by-shops/?shop_id=${shopId}`
+            `${basAPI}/shops/get-products-by-shops/?shop_id=${shopId}`,
           );
           const data = await response.json();
           setProducts(data);
@@ -79,7 +87,7 @@ const ProductList = () => {
         setCurrentImageIndex((prevIndex) =>
           prevIndex === products[currentImageIndex]?.image_urls.length - 1
             ? 0
-            : prevIndex + 1
+            : prevIndex + 1,
         );
       }, 5000);
     }
@@ -88,7 +96,15 @@ const ProductList = () => {
   }, [currentImageIndex, products]);
 
   return (
-    <main className="flex-1" style={{ backgroundImage: `url(${headerData?.backgroundApp})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+    <main
+      className="flex-1"
+      style={{
+        backgroundImage: `url(${headerData?.backgroundApp})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="mx-auto container px-6 xl:px-0 py-12">
         <div className="flex flex-col">
           <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

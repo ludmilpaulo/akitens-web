@@ -11,7 +11,6 @@ import { basAPI, Category, useHeaderData } from "@/configs/variable";
 
 import { Eye, EyeOff } from "lucide-react";
 
-
 const SignupScreen = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -175,195 +174,200 @@ const SignupScreen = () => {
   };
 
   return (
- 
-    
-    <div className="w-full min-h-screen px-4 py-16 flex items-center justify-center" style={{ backgroundImage: `url(${headerData?.backgroundApp})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-      
-    <div className="relative flex flex-col items-center justify-center w-full max-w-lg bg-white rounded shadow-lg">
-          <motion.div
-            animate={{
-              scale: [1, 1, 1, 1, 1],
-              rotate: [0, 30, 60, 240, 360],
-            }}
-            className="p-10 lg:w-2/3 md:w-2/3"
+    <div
+      className="w-full min-h-screen px-4 py-16 flex items-center justify-center"
+      style={{
+        backgroundImage: `url(${headerData?.backgroundApp})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="relative flex flex-col items-center justify-center w-full max-w-lg bg-white rounded shadow-lg">
+        <motion.div
+          animate={{
+            scale: [1, 1, 1, 1, 1],
+            rotate: [0, 30, 60, 240, 360],
+          }}
+          className="p-10 lg:w-2/3 md:w-2/3"
+        >
+          <div className="flex justify-center mb-6">
+            <Image
+              src={headerData?.logo || "/default-logo.png"}
+              alt="logo"
+              width={100}
+              height={100}
+              className="w-64 h-64"
+            />
+          </div>
+
+          <h1
+            tabIndex={0}
+            aria-label="Login to your account"
+            className="text-2xl font-extrabold leading-6 text-gray-800"
           >
-            <div className="flex justify-center mb-6">
-              <Image
-                src={headerData?.logo || '/default-logo.png'}
-                alt="logo"
-                width={100}
-                height={100}
-                className="w-64 h-64"
+            Inscreva-se Para ter uma Conta
+          </h1>
+          <br></br>
+
+          <Link href={"/LoginScreenUser"}>
+            <p className="mt-4 text-sm font-medium leading-none text-gray-500">
+              Se você tem uma conta?{" "}
+              <span
+                tabIndex={0}
+                role="link"
+                aria-label="Sign up here"
+                className="text-sm font-medium leading-none text-gray-800 underline cursor-pointer"
+              >
+                {" "}
+                Entre aqui
+              </span>
+            </p>
+            <br></br>
+          </Link>
+
+          {/* Role selection */}
+          <div className="mb-4">
+            <label className="mr-4">
+              <input
+                type="radio"
+                name="role"
+                value="client"
+                checked={role === "client"}
+                onChange={handleRoleChange}
               />
-            </div>
+              Cliente
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="role"
+                value="restaurant"
+                checked={role === "restaurant"}
+                onChange={handleRoleChange}
+              />
+              Fornecedor de Negocio
+            </label>
+          </div>
+          <br></br>
+          <Transition
+            show={loading}
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            {loading && (
+              <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full">
+                <div className="w-32 h-32 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+              </div>
+            )}
+          </Transition>
 
-            <h1
-              tabIndex={0}
-              aria-label="Login to your account"
-              className="text-2xl font-extrabold leading-6 text-gray-800"
-            >
-              Inscreva-se Para ter uma Conta
-            </h1>
-            <br></br>
-
-            <Link href={"/LoginScreenUser"}>
-              <p className="mt-4 text-sm font-medium leading-none text-gray-500">
-                Se você tem uma conta?{" "}
-                <span
-                  tabIndex={0}
-                  role="link"
-                  aria-label="Sign up here"
-                  className="text-sm font-medium leading-none text-gray-800 underline cursor-pointer"
+          {!loading && (
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+              <input
+                name="username"
+                placeholder="Usuario"
+                onChange={handleInputChange}
+                className="p-2 border rounded"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                onChange={handleInputChange}
+                className="p-2 border rounded"
+              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Senha"
+                  onChange={handleInputChange}
+                  className="p-2 w-full border rounded" // Remove relative positioning from the input field
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 flex items-center justify-center h-full px-3" // Position the button absolutely to the top right corner of the container
                 >
-                  {" "}
-                  Entre aqui
-                </span>
-              </p>
-              <br></br>
-            </Link>
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
 
-            {/* Role selection */}
-            <div className="mb-4">
-              <label className="mr-4">
-                <input
-                  type="radio"
-                  name="role"
-                  value="client"
-                  checked={role === "client"}
-                  onChange={handleRoleChange}
-                />
-                Cliente
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="role"
-                  value="restaurant"
-                  checked={role === "restaurant"}
-                  onChange={handleRoleChange}
-                />
-                Fornecedor de Negocio
-              </label>
-            </div>
-            <br></br>
-            <Transition
-              show={loading}
-              enter="transition-opacity duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              {loading && (
-                <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full">
-                  <div className="w-32 h-32 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
-                </div>
-              )}
-            </Transition>
-
-            {!loading && (
-              <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-                <input
-                  name="username"
-                  placeholder="Usuario"
-                  onChange={handleInputChange}
-                  className="p-2 border rounded"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  onChange={handleInputChange}
-                  className="p-2 border rounded"
-                />
-                <div className="relative">
+              {role === "restaurant" && (
+                <>
                   <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Senha"
+                    name="name"
+                    placeholder="Nome do Fornecedor ou do Negocio"
                     onChange={handleInputChange}
-                    className="p-2 w-full border rounded" // Remove relative positioning from the input field
+                    className="p-2 border rounded"
                   />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute inset-y-0 right-0 flex items-center justify-center h-full px-3" // Position the button absolutely to the top right corner of the container
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
+                  <input
+                    name="phone"
+                    placeholder="Telefone"
+                    onChange={handleInputChange}
+                    className="p-2 border rounded"
+                  />
+                  <input
+                    name="address"
+                    placeholder="Endereço"
+                    onChange={handleInputChange}
+                    className="p-2 border rounded"
+                  />
 
-                {role === "restaurant" && (
-                  <>
+                  <div className="relative">
                     <input
-                      name="name"
-                      placeholder="Nome do Fornecedor ou do Negocio"
-                      onChange={handleInputChange}
-                      className="p-2 border rounded"
+                      type="file"
+                      name="logo"
+                      onChange={handleFileChange}
+                      className="absolute w-full h-full p-2 border rounded opacity-0 cursor-pointer"
                     />
-                    <input
-                      name="phone"
-                      placeholder="Telefone"
-                      onChange={handleInputChange}
-                      className="p-2 border rounded"
-                    />
-                    <input
-                      name="address"
-                      placeholder="Endereço"
-                      onChange={handleInputChange}
-                      className="p-2 border rounded"
-                    />
-
-                    <div className="relative">
-                      <input
-                        type="file"
-                        name="logo"
-                        onChange={handleFileChange}
-                        className="absolute w-full h-full p-2 border rounded opacity-0 cursor-pointer"
-                      />
-                      <div className="p-2 border rounded cursor-pointer">
-                        {logoLoading ? (
-                          <span className="w-5 h-5 mx-auto border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></span>
-                        ) : (
-                          "Carregar o Logo"
-                        )}
-                      </div>
+                    <div className="p-2 border rounded cursor-pointer">
+                      {logoLoading ? (
+                        <span className="w-5 h-5 mx-auto border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></span>
+                      ) : (
+                        "Carregar o Logo"
+                      )}
                     </div>
-                    <div className="relative">
-                      <input
-                        type="file"
-                        name="restaurant_license"
-                        onChange={handleFileChange}
-                        className="absolute w-full h-full p-2 border rounded opacity-0 cursor-pointer"
-                      />
-                      <div className="p-2 border rounded cursor-pointer">
-                        {licencaLoading ? (
-                          <span className="w-5 h-5 mx-auto border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></span>
-                        ) : (
-                          "Carregar a Licença"
-                        )}
-                      </div>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="file"
+                      name="restaurant_license"
+                      onChange={handleFileChange}
+                      className="absolute w-full h-full p-2 border rounded opacity-0 cursor-pointer"
+                    />
+                    <div className="p-2 border rounded cursor-pointer">
+                      {licencaLoading ? (
+                        <span className="w-5 h-5 mx-auto border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></span>
+                      ) : (
+                        "Carregar a Licença"
+                      )}
                     </div>
-                    <div className="relative">
-                      <label className="block mb-2">Categoria</label>
-                      <div className="flex">
-                        <select
-                          name="category"
-                          value={shop_category}
-                          onChange={handleSelectChange}
-                          className="flex-grow p-2 border mr-2"
-                        >
-                          <option value="">
-                            Selecione a categoria do seu negocio
+                  </div>
+                  <div className="relative">
+                    <label className="block mb-2">Categoria</label>
+                    <div className="flex">
+                      <select
+                        name="category"
+                        value={shop_category}
+                        onChange={handleSelectChange}
+                        className="flex-grow p-2 border mr-2"
+                      >
+                        <option value="">
+                          Selecione a categoria do seu negocio
+                        </option>
+                        {category.map((categoria) => (
+                          <option key={categoria.id} value={categoria.slug}>
+                            {categoria.name}
                           </option>
-                          {category.map((categoria) => (
-                            <option key={categoria.id} value={categoria.slug}>
-                              {categoria.name}
-                            </option>
-                          ))}
-                        </select>
-                        {/*
+                        ))}
+                      </select>
+                      {/*
                         <input
                           type="text"
                           placeholder="Digite a categoria"
@@ -371,26 +375,25 @@ const SignupScreen = () => {
                           onChange={(e) => setShop_category(e.target.value)}
                           className="flex-none p-2 border"
                         />*/}
-                      </div>
                     </div>
-                  </>
-                )}
+                  </div>
+                </>
+              )}
 
-                <div className="mt-8">
-                  <button
-                    type="submit" // Set the button type to submit
-                    aria-label="Entrar na minha conta"
-                    className="w-full py-4 text-sm font-semibold leading-none text-white bg-black border rounded focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:outline-none hover:bg-indigo-600"
-                  >
-                    Inscreva-se Agora
-                  </button>
-                </div>
-              </form>
-            )}
-          </motion.div>
-        </div>
+              <div className="mt-8">
+                <button
+                  type="submit" // Set the button type to submit
+                  aria-label="Entrar na minha conta"
+                  className="w-full py-4 text-sm font-semibold leading-none text-white bg-black border rounded focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:outline-none hover:bg-indigo-600"
+                >
+                  Inscreva-se Agora
+                </button>
+              </div>
+            </form>
+          )}
+        </motion.div>
       </div>
-  
+    </div>
   );
 };
 

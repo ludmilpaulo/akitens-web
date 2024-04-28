@@ -38,7 +38,7 @@ const CheckoutScreen = () => {
     if (cartQuery) {
       setCartData(JSON.parse(cartQuery));
     }
-    
+
     // Fetch user profile data when component mounts
     fetchUserProfile();
   }, [cartQuery]);
@@ -60,7 +60,11 @@ const CheckoutScreen = () => {
 
       if (response.ok) {
         // Check if avatar, phone, and address are null
-        if (!data.customer_details.avatar || !data.customer_details.phone || !data.customer_details.address) {
+        if (
+          !data.customer_details.avatar ||
+          !data.customer_details.phone ||
+          !data.customer_details.address
+        ) {
           setShowUserProfilePopup(true);
         }
       } else {

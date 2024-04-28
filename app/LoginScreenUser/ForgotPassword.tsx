@@ -26,13 +26,13 @@ const ForgotPassword: React.FC = () => {
     try {
       const response = await fetch(`${basAPI}/accounts/forgot-password/`, {
         method: "POST",
-      //  mode: 'no-cors',
+        //  mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       });
-        console.log("response", response)
+      console.log("response", response);
       if (response.ok) {
         alert("Password reset link sent successfully!");
         //   onClose(); // Close the dialog after successful submission

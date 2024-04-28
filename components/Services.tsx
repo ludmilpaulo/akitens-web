@@ -105,9 +105,10 @@ const Services: React.FC<ServicesProps> = () => {
         <div className="content-wrapper">
           <div className="flex items-center justify-center page-header">
             <button
-              onClick={() => {setIsAddModalOpen(true);
-                setServiceTable(false)}
-              }
+              onClick={() => {
+                setIsAddModalOpen(true);
+                setServiceTable(false);
+              }}
               className="px-4 py-2 ml-4 text-white bg-blue-500 rounded hover:bg-blue-600"
             >
               Adicionar serviço
@@ -147,7 +148,7 @@ const Services: React.FC<ServicesProps> = () => {
                 categorias={categorias}
               />
 
-            {serviceTable &&  <ServiceTableContainer />}
+              {serviceTable && <ServiceTableContainer />}
             </>
           )}
         </div>

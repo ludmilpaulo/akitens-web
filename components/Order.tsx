@@ -103,8 +103,8 @@ const Order = () => {
                       <td className="px-4 py-2 border">
                         {order.order_details.map((od, index) => (
                           <span key={od.id}>
-                            {od.product.title} {od.product.price} x {od.quantity} ={" "}
-                            {od.sub_total}kz
+                            {od.product.title} {od.product.price} x{" "}
+                            {od.quantity} = {od.sub_total}kz
                             {index < order.order_details.length - 1 && (
                               <br />
                             )}{" "}
@@ -112,8 +112,12 @@ const Order = () => {
                           </span>
                         ))}
                       </td>
-                      <td className="px-4 py-2 border">{order.customer.name}</td>
-<td className="px-4 py-2 border">{order?.driver?.name}</td>
+                      <td className="px-4 py-2 border">
+                        {order.customer.name}
+                      </td>
+                      <td className="px-4 py-2 border">
+                        {order?.driver?.name}
+                      </td>
 
                       <td className="px-4 py-2 border">{order.total}</td>
                       <td className="px-4 py-2 border">{order.status}</td>

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Products from "./Products";
-import Report from './Report';
+import Report from "./Report";
 import { logoutUser, selectUser } from "@/redux/slices/authSlice";
 import { basAPI, FornecedorType, useHeaderData } from "@/configs/variable";
 import Order from "./Order";
@@ -31,19 +31,15 @@ const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
   const [showOrders, setShowOrders] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [showServices, setShowServices] = useState(false);
-  const [listOfCustomer, setListOfCustomer ] = useState(false);
-  const [listOfDriver, setListOfDriver ] = useState(false);
+  const [listOfCustomer, setListOfCustomer] = useState(false);
+  const [listOfDriver, setListOfDriver] = useState(false);
   const [loading, setLoading] = useState(false);
-
 
   const [notificationCount, setNotificationCount] = useState(0);
 
   const user = useSelector(selectUser);
 
   const headerData = useHeaderData();
-
-
-
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -58,12 +54,14 @@ const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
       try {
         // Get the user ID from wherever it's stored in your frontend (e.g., from the authentication state)
         const userId = user.user_id; // Replace user.user_id with the actual way to get the user ID
-  
+
         // Generate the last_request_time dynamically
         const lastRequestTime = new Date().toISOString();
-  
+
         console.log("Fetching order notifications...");
-        const response = await fetch(`${basAPI}/orders/shop/order/notification/${userId}/${lastRequestTime}/`);
+        const response = await fetch(
+          `${basAPI}/orders/shop/order/notification/${userId}/${lastRequestTime}/`,
+        );
         console.log("Response:", response);
 
         if (!response.ok) {
@@ -72,49 +70,61 @@ const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
         const data = await response.json();
         // Update notification count with the received data
 
-        console.log("notification", data)
+        console.log("notification", data);
         setNotificationCount(data.notification);
       } catch (error) {
         console.error("Error fetching order notifications:", error);
       }
     };
-  
+
     // Fetch order notifications initially
     fetchOrderNotifications();
-  
+
     // Fetch order notifications every 5 seconds
-  //  const intervalId = setInterval(fetchOrderNotifications, 5000);
-  
+    //  const intervalId = setInterval(fetchOrderNotifications, 5000);
+
     // Cleanup function
     return () => {
       // Clear interval when component unmounts
-    //  clearInterval(intervalId);
+      //  clearInterval(intervalId);
     };
   }, [user]); // Run this effect whenever the user changes
 
   if (!headerData) {
     //setLoading(true)
-    return <div>   <Transition
-    show={loading}
-    enter="transition-opacity duration-300"
-    enterFrom="opacity-0"
-    enterTo="opacity-100"
-    leave="transition-opacity duration-300"
-    leaveFrom="opacity-100"
-    leaveTo="opacity-0"
-  >
-   {loading && (
-<div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full">
-<div className="w-32 h-32 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
-</div>
-)}
-
-  </Transition></div>;
+    return (
+      <div>
+        {" "}
+        <Transition
+          show={loading}
+          enter="transition-opacity duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          {loading && (
+            <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full">
+              <div className="w-32 h-32 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+            </div>
+          )}
+        </Transition>
+      </div>
+    );
   }
-  
+
   return (
     <div className="flex h-screen">
-      <nav className="w-64 h-screen p-4 text-white" style={{ backgroundImage: `url(${headerData?.backgroundApp})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+      <nav
+        className="w-64 h-screen p-4 text-white"
+        style={{
+          backgroundImage: `url(${headerData?.backgroundApp})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <ul className="space-y-4">
           {/* Profile Section */}
           <li className="flex items-center space-x-4">
@@ -193,7 +203,7 @@ const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
             className="p-2 rounded hover:bg-blue-500"
             onClick={() => {
               setShowProducts(false);
-              setShowReport(false);// Add this
+              setShowReport(false); // Add this
               setListOfCustomer(false);
               setListOfDriver(false);
               setShowServices(false);
@@ -231,7 +241,7 @@ const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
             onClick={() => {
               setShowProducts(false);
               setShowOrders(false);
-              setShowReport(false);// Add this
+              setShowReport(false); // Add this
               setListOfDriver(false);
               setListOfCustomer(true);
               setShowServices(false);
@@ -249,7 +259,7 @@ const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
             onClick={() => {
               setShowProducts(false);
               setShowOrders(false);
-              setShowReport(false);// Add this
+              setShowReport(false); // Add this
               setListOfCustomer(false);
               setListOfDriver(true);
               setShowServices(false);
@@ -292,8 +302,19 @@ const Sidebar: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
         </ul>
       </nav>
 
-      <div className="flex-1 overflow-y-auto" style={{ backgroundImage: `url(${headerData?.backgroundApp})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-      {showServices && <Services />}  {showProducts && <Products />} {showOrders && <Order />} {showReport && <Report />} {listOfCustomer && <CustomersList />}{listOfDriver && <DriverList />}{" "}
+      <div
+        className="flex-1 overflow-y-auto"
+        style={{
+          backgroundImage: `url(${headerData?.backgroundApp})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {showServices && <Services />} {showProducts && <Products />}{" "}
+        {showOrders && <Order />} {showReport && <Report />}{" "}
+        {listOfCustomer && <CustomersList />}
+        {listOfDriver && <DriverList />}{" "}
         {/* Conditionally render Products based on showProducts state */}
       </div>
     </div>

@@ -4,15 +4,16 @@ import { useSelector } from "react-redux";
 import { selectUser } from "@/redux/slices/authSlice";
 import { basAPI, GetService } from "@/configs/variable";
 
-
-const ServiceTableContainer = () => { // Changed from ProductTableContainer to ServiceTableContainer
+const ServiceTableContainer = () => {
+  // Changed from ProductTableContainer to ServiceTableContainer
   const [services, setServices] = useState<GetService[] | null>(null); // Changed from products to services
   const [loading, setLoading] = useState(false);
   const user = useSelector(selectUser);
 
   console.log("serviços==>", services);
 
-  const fetchServiceData = useCallback(async () => { // Changed from fetchProductData to fetchServiceData
+  const fetchServiceData = useCallback(async () => {
+    // Changed from fetchProductData to fetchServiceData
     setLoading(true);
     if (user?.token) {
       try {
@@ -22,8 +23,9 @@ const ServiceTableContainer = () => { // Changed from ProductTableContainer to S
         if (response.ok) {
           const data = await response.json();
           console.log("service fetched ==>", data);
-           // Changed from produtos to serviços
-          if (data && Array.isArray(data.service)) { // Changed from products to services
+          // Changed from produtos to serviços
+          if (data && Array.isArray(data.service)) {
+            // Changed from products to services
             setServices(data.service); // Changed from products to services
           } else if (data && data.length === 0) {
             alert("No services available. Please add services."); // Changed from products to services
@@ -48,7 +50,8 @@ const ServiceTableContainer = () => { // Changed from ProductTableContainer to S
     return () => clearInterval(intervalId);
   }, [fetchServiceData]);
 
-  const handleDelete = async (serviceId: number) => { // Changed from productId to serviceId
+  const handleDelete = async (serviceId: number) => {
+    // Changed from productId to serviceId
     const user_id = user?.user_id;
 
     if (!user_id) {
@@ -56,7 +59,8 @@ const ServiceTableContainer = () => { // Changed from ProductTableContainer to S
       return;
     }
 
-    if (window.confirm("Are you sure you want to delete this service?")) { // Changed from product to service
+    if (window.confirm("Are you sure you want to delete this service?")) {
+      // Changed from product to service
       try {
         const response = await fetch(
           `${basAPI}/shops/delete-service/${serviceId}/`, // Changed from delete-product to delete-service
@@ -100,20 +104,24 @@ const ServiceTableContainer = () => { // Changed from ProductTableContainer to S
               <th className="px-4 py-2 border">No</th>
               <th className="px-4 py-2 border">Nome</th>
               <th className="px-4 py-2 border">Pequena descrição</th>
-             
+
               <th className="px-4 py-2 border">Imagem</th>
-             
             </tr>
           </thead>
           <tbody>
-            {services.map((service, index) => ( // Changed from products to services
-              <ServiceTableRow // Changed from ProductTableRow to ServiceTableRow
-                key={index}
-                service={service} // Changed from product to service
-                index={index}
-                handleDelete={handleDelete}
-              />
-            ))}
+            {services.map(
+              (
+                service,
+                index, // Changed from products to services
+              ) => (
+                <ServiceTableRow // Changed from ProductTableRow to ServiceTableRow
+                  key={index}
+                  service={service} // Changed from product to service
+                  index={index}
+                  handleDelete={handleDelete}
+                />
+              ),
+            )}
           </tbody>
         </table>
       )}

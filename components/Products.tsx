@@ -105,9 +105,10 @@ const Products: React.FC<ProductsProps> = () => {
         <div className="content-wrapper">
           <div className="flex items-center justify-center page-header">
             <button
-              onClick={() => {setIsAddModalOpen(true);
-                setProductTable(false)}
-              }
+              onClick={() => {
+                setIsAddModalOpen(true);
+                setProductTable(false);
+              }}
               className="px-4 py-2 ml-4 text-white bg-blue-500 rounded hover:bg-blue-600"
             >
               Adicionar produto
@@ -147,7 +148,7 @@ const Products: React.FC<ProductsProps> = () => {
                 categorias={categorias}
               />
 
-            {productTable &&  <ProductTableContainer />}
+              {productTable && <ProductTableContainer />}
             </>
           )}
         </div>
