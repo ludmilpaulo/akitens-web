@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../redux/slices/authSlice";
 import { NextPage } from "next";
 import Link from "next/link";
+import { basAPI } from "@/configs/variable";
 
 type CustomerData = {
   id: number;
@@ -63,7 +64,7 @@ const OrderHistory: NextPage = () => {
 
   const fetchOrderHistory = async () => {
     try {
-      let response = await fetch(`${basaAPI}/orders/customer/order/history/`, {
+      let response = await fetch(`${basAPI}/orders/customer/order/history/`, {
         method: "POST",
         headers: {
           Accept: "application/json",

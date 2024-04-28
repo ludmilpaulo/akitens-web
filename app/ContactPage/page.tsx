@@ -1,16 +1,18 @@
 "use client";
-import { AboutUsData, fetchAboutUsData, submitContactForm } from '@/useAPI/fetchData';
+import Link from 'next/link';
+import { SocialIcon } from "react-social-icons";
+import { motion, useAnimation } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { FiUser, FiMail, FiMessageCircle, FiPhone } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import { AboutUsData, basAPI, fetchAboutUsData } from '@/configs/variable';
 
 const ContactForm: React.FC = () => {
+    const controls = useAnimation();
   const [formData, setFormData] = useState({
     subject: '',
     name: '',
     email: '',
-    company: '',
-    address: '',
     phone : '',
     message: '',
   });
@@ -30,40 +32,77 @@ const ContactForm: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+// Handle form submission
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     
     try {
-      // Call the submitContactForm function with the formData
-      await submitContactForm(formData);
-      console.log('Form submitted successfully', formData);
-      
-      // Reset the form data after successful submission
-      setFormData({
-        subject: '',
-        name: '',
-        email: '',
-        company: '',
-        address: '',
-        phone: '',
-        message: '',
+      // Call the API endpoint to submit the form data
+      const response = await fetch(`${basAPI}/info/contacts/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
   
-      // Show alert to notify the user
-      alert('Your form has been submitted successfully. We will contact you within 24 hours.');
+      if (response.ok) {
+        console.log('Form submitted successfully', formData);
   
-      // Redirect the user to '/'
-      router.push('/services');
+        // Reset form data after successful submission
+        setFormData({
+          subject: '',
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+  
+        // Show alert to notify the user
+        alert('Your form has been submitted successfully. We will contact you within 24 hours.');
+  
+        // Redirect the user to '/services'
+        router.push('/');
+      } else {
+        // Handle errors if any
+        console.error('Error submitting form:', response.statusText);
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
   
   return (
-    <div style={{ backgroundImage: `url(${aboutUsData?.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+    <div style={{ backgroundImage: `url(${aboutUsData?.backgroundApp})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
       <div className="container mx-auto py-8">
+      <motion.div
+  initial={{
+    x: -500,
+    opacity: 0,
+    scale: 0.5,
+  }}
+  animate={{
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  }}
+  transition={{
+    duration: 2,
+  }}
+  className="flex flex-row items-center"
+>
+  <>
+    {aboutUsData?.facebook && <SocialIcon url={aboutUsData.facebook} />}
+    {aboutUsData?.linkedin && <SocialIcon url={aboutUsData.linkedin} />}
+    {aboutUsData?.twitter && <SocialIcon url={aboutUsData.twitter} />}
+   
+    {aboutUsData?.instagram && <SocialIcon url={aboutUsData.instagram} />}
+  </>
+</motion.div>
+
+
+    
         <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 mx-auto">
           <h2 className="text-3xl font-semibold mb-6 text-center">Let’s chat and get a quote!</h2>
           <div className="mb-4">
@@ -120,40 +159,8 @@ const ContactForm: React.FC = () => {
               />
             </div>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-800 text-sm font-semibold mb-2" htmlFor="company">
-              Company Name
-            </label>
-            <div className="flex items-center">
-              <FiUser className="text-gray-600 mr-2" />
-              <input
-                type="text"
-                id="company"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter your company name"
-              />
-            </div>
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-800 text-sm font-semibold mb-2" htmlFor="country">
-              Address
-            </label>
-            <div className="flex items-center">
-              <FiUser className="text-gray-600 mr-2" />
-              <input
-                type="text"
-                id="address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter your Address"
-              />
-            </div>
-          </div>
+        
+       
           <div className="mb-4">
             <label className="block text-gray-800 text-sm font-semibold mb-2" htmlFor="phone">
               Phone

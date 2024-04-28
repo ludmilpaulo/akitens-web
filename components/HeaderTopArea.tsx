@@ -113,14 +113,14 @@ function HeaderTopArea() {
         </form>
 
         <div className="flex space-x-5 mt-5 md:mt-0 font-extrabold text-2xl bg-[#51718b] text-[#FFFFFF]">
-          <Link href={"/"} passHref>
+          <Link href={"/ShopsCategories"} passHref>
             <div className="hidden xl:flex font-bold items-center space-x-2 text-sm">
               <Grid2X2 size={20} />
-              <p>Departamentos</p>
+              <p>Lojas</p>
             </div>
           </Link>
 
-          <Link href={"/"} passHref>
+          <Link href={"/ServicePage"} passHref>
             <div className="hidden xl:flex font-bold items-center space-x-2 text-sm">
               <LayoutGrid size={20} />
               <p>Serviços</p>

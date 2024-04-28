@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 import React, { useState, useEffect } from "react";
 export const googleAPi = "AIzaSyAALuGqF68jJ8v9_69tXtEcGkRdX5NgU1s";
 
-//export const basAPI = "https://taki.pythonanywhere.com";
+export const basAPI = "https://taki.pythonanywhere.com";
 
-export const basAPI = "http://127.0.0.1:8000";
+//export const basAPI = "http://127.0.0.1:8000";
 
 export type UserDetails = {
   // customer_detais: string;
@@ -122,6 +122,24 @@ export interface AboutUsData {
   twitter: string;
   instagram: string;
 }
+
+// types.ts
+
+export interface UserService {
+  id: number;
+  title: string;
+  description: string;
+  image_urls: (string | File)[];
+}
+
+export interface ServiceRequest {
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  message: string;
+}
+
 
 export async function fetchAboutUsData(): Promise<AboutUsData | null> {
   try {
