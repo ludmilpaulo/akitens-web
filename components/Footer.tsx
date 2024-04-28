@@ -23,16 +23,7 @@ interface HeaderData {
   backgroundImage: string;
 }
 
-const LINKS = [
-  {
-    title: "Company",
-    items: ["Sobre nós", "Carreiras", "Media Social"],
-  },
-  {
-    title: "Resource",
-    items: ["Events", "Help center"],
-  },
-];
+
 
 const currentYear = new Date().getFullYear();
 

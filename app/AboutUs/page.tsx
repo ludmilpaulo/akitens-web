@@ -1,8 +1,8 @@
 "use client";
-import { AboutUsData, fetchAboutUsData, fetchTeamData, TeamData, useTeamData } from "@/configs/variable";
+import { AboutUsData, fetchAboutUsData, fetchTeamData, TeamData} from "@/configs/variable";
 import React, { useEffect, useState } from "react";
 import Link from 'next/link';
-import Image from 'next/image';
+import { SocialIcon } from "react-social-icons";
 import { motion, useAnimation } from 'framer-motion';
 
 
@@ -53,39 +53,89 @@ const AboutUs = () => {
     }, []);
   
     return (
-        <div className="flex" style={{
+        <>
+        <div className="mx-auto p-4 pt-6 md:p-6 lg:p-12"
+         style={{
             backgroundImage: `url(${aboutUsData?.backgroundApp})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-          }}>
-        <div className="mx-auto bg-white p-4 pt-6 md:p-6 lg:p-12"
-         
+          }}
         >
-          <h1 className="text-3xl font-bold mb-4">About Us</h1>
+          <h1 className="text-3xl font-bold mb-4 text-center">About Us</h1>
           {aboutUsData && (
-            <div className="prose lg:prose-xl">
+            <div className="prose lg:prose-xl bg-white">
+                <strong>{aboutUsData.title}</strong>
              <div dangerouslySetInnerHTML={{ __html: aboutUsData.about }} />
-              <Image
-                src={aboutUsData.logo}
-                alt="Company Logo"
-                className="w-full md:w-1/2 lg:w-1/3 mx-auto md:mx-0"
-                width={500} // Set width property here (adjust as needed)
-                height={500} // Set height property here (adjust as needed)
-              />
+              
               <address>
+              <motion.div
+  initial={{
+    x: -500,
+    opacity: 0,
+    scale: 0.5,
+  }}
+  animate={{
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  }}
+  transition={{
+    duration: 2,
+  }}
+  className="flex flex-row items-center"
+>
+  <>
+    {aboutUsData?.facebook && <SocialIcon url={aboutUsData.facebook} />}
+    {aboutUsData?.linkedin && <SocialIcon url={aboutUsData.linkedin} />}
+    {aboutUsData?.twitter && <SocialIcon url={aboutUsData.twitter} />}
+   
+    {aboutUsData?.instagram && <SocialIcon url={aboutUsData.instagram} />}
+  </>
+</motion.div>
+
+
+      <motion.div
+        initial={{
+          x: 500,
+          opacity: 0,
+          scale: 0.5,
+        }}
+        animate={{
+          x: 0,
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          duration: 2,
+        }}
+        className="flex flex-row items-center text-gray-300 cursor-pointer"
+      >
+        {aboutUsData.email && (
+                    <Link href={`mailto:${aboutUsData.email}`}>
+        <SocialIcon
+          className="cursor-pointer"
+          network="email"
+          fgColor="gray"
+          bgColor="transparent"
+        />
+        <p className="uppercase md:inline-flex text-sm text-gray-400">
+          {" "}
+          {aboutUsData.email}
+        </p>
+        </Link>
+    )}
+      </motion.div>
                 <p>
-                  <strong>{aboutUsData.title}</strong>
+                  
                   <br />
                   {aboutUsData.address}
                   <br />
-                  {aboutUsData.email && (
-                    <Link href={`mailto:${aboutUsData.email}`}>
+                  
                       <span className="text-blue-600 hover:text-blue-800">
-                        {aboutUsData.email}
+                       
                       </span>
-                    </Link>
-                  )}
+                    
                   <br />
                   {aboutUsData.phone && (
                     <Link href={`tel:${aboutUsData.phone}`}>
@@ -95,36 +145,20 @@ const AboutUs = () => {
                     </Link>
                   )}
                 </p>
-                <div className="flex justify-center mt-4">
-                  {aboutUsData.facebook && (
-                    <Link href={aboutUsData.facebook}>
-                      <span className="text-gray-600 hover:text-gray-800 mr-4">
-                        <FaFacebook size={24} />
-                      </span>
-                    </Link>
-                  )}
-                  {aboutUsData.instagram && (
-                    <Link href={aboutUsData.instagram}>
-                      <span className="text-gray-600 hover:text-gray-800 mr-4">
-                        <FaInstagram size={24} />
-                      </span>
-                    </Link>
-                  )}
-                  {aboutUsData.twitter && (
-                    <Link href={aboutUsData.twitter}>
-                      <span className="text-gray-600 hover:text-gray-800 mr-4">
-                        <FaTwitter size={24} />
-                      </span>
-                    </Link>
-                  )}
-                </div>
+                
               </address>
             </div>
           )}
         </div>
       
-        <div className="items-center mx-auto py-6">
-          <h1 className="text-3xl font-bold mb-6">Our Team</h1>
+        <div className="items-center mx-auto py-6" 
+         style={{
+            backgroundImage: `url(${aboutUsData?.backgroundApp})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}>
+          <h1 className="text-3xl font-bold mb-6 text-center text-white">Na linha de Frente</h1>
           <motion.div
             animate={controls}
             className="flex justify-center"
@@ -140,7 +174,7 @@ const AboutUs = () => {
             </div>
           </motion.div>
         </div>
-      </div>
+      </>
       
       
     );
