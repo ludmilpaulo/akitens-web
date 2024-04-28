@@ -1,7 +1,11 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+
+import Link from 'next/link';
+import { SocialIcon } from "react-social-icons";
+import { motion, useAnimation } from 'framer-motion';
+
 
 import {
   FaFacebookF,
@@ -18,6 +22,7 @@ interface HeaderData {
   whatsapp: string;
   facebook: string;
   twitter: string;
+  linkedin: string;
   instagram: string;
   logo: string;
   backgroundImage: string;
@@ -89,10 +94,32 @@ export default function Footer() {
             . All Rights Reserved.
           </div>
           <div className="flex gap-4 text-white sm:justify-center">
-            <FaFacebookF className="opacity-80 transition-opacity hover:opacity-100" />
-            <FaTwitter className="opacity-80 transition-opacity hover:opacity-100" />
-            <FaInstagram className="opacity-80 transition-opacity hover:opacity-100" />
-            <FaLinkedinIn className="opacity-80 transition-opacity hover:opacity-100" />
+          <motion.div
+  initial={{
+    x: -500,
+    opacity: 0,
+    scale: 0.5,
+  }}
+  animate={{
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  }}
+  transition={{
+    duration: 2,
+  }}
+  className="flex flex-row items-center"
+>
+  <>
+    {headerData?.facebook && <SocialIcon url={headerData.facebook} />}
+    {headerData?.linkedin && <SocialIcon url={headerData.linkedin} />}
+    {headerData?.twitter && <SocialIcon url={headerData.twitter} />}
+   
+    {headerData?.instagram && <SocialIcon url={headerData.instagram} />}
+  </>
+</motion.div>
+
+
           </div>
         </div>
       </div>
