@@ -12,12 +12,9 @@ import UserProfile from "@/components/UserProfile";
 
 import OrderHistory from "@/components/OrderHistory";
 
-interface SidebarProps {
-  fornecedor: FornecedorType | null;
-  onNavClick?: (navItem: string) => void; // Callback function to notify the parent about a menu click
-}
 
-const UserDashboard: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
+
+const UserDashboard: React.FC = () => {
   const [showProducts, setShowProducts] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const user = useSelector(selectUser);

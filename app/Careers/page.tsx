@@ -111,7 +111,7 @@ const Careers: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {careers.map(career => (
           <div key={career.id} className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-2">{career.title}</h2>
+            <h2 className="text-xl font-semibold mb-2">{career?.title}</h2>
             <p className="text-gray-600"
             dangerouslySetInnerHTML={{ __html: career.description }}
             />
