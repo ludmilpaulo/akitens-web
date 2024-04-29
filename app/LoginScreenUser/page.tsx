@@ -8,12 +8,13 @@ import Link from "next/link";
 import { basAPI, useHeaderData } from "@/configs/variable";
 
 import { Eye, EyeOff } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { loginUser } from "@/redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../redux/slices/authSlice";
 
 const LoginScreenUser = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
