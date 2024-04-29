@@ -8,9 +8,12 @@ import Link from "next/link";
 import { basAPI, useHeaderData } from "@/configs/variable";
 
 import { Eye, EyeOff } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "@/redux/slices/authSlice";
 
 const LoginScreenUser = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -45,8 +48,10 @@ const LoginScreenUser = () => {
       let resJson = await res.json();
       if (res.status === 200 && resJson.is_customer === true) {
         alert("Login successful!");
+        dispatch(loginUser(resJson));
         router.push("/");
       } else if (resJson.is_customer === false) {
+        dispatch(loginUser(resJson));
         router.push("/ShopDashboard"); // Redirect to Dashboard
       } else {
         alert(Object.values(resJson));
