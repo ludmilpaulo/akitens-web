@@ -12,8 +12,12 @@ import UserProfile from "@/components/UserProfile";
 
 import OrderHistory from "@/components/OrderHistory";
 
+interface SidebarProps {
+  fornecedor: FornecedorType | null;
+  onNavClick?: (navItem: string) => void; // Callback function to notify the parent about a menu click
+}
 
-const UserDashboard: React.FC = () => {
+const UserDashboard: React.FC<SidebarProps> = ({ fornecedor, onNavClick }) => {
   const [showProducts, setShowProducts] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const user = useSelector(selectUser);
@@ -23,7 +27,7 @@ const UserDashboard: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchUserDetails = async () => {
     try {
-      const res = await fetch(`${basAPI}/orders/customer/profile/`, {
+      const res = await fetch(`${basAPI}api/customer/profile/`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -61,15 +65,18 @@ const UserDashboard: React.FC = () => {
 
   return (
     <>
+     
       <div className="flex h-screen">
-        <nav className="w-64 h-screen p-4 text-white bg-gray-800">
+        <nav className="w-64 h-screen p-4 text-white bg-[#000023]">
           <ul className="space-y-4">
             {/* Profile Section */}
             {userDetails && (
               <li className="flex items-center space-x-4">
                 <div className="relative w-12 h-12">
                   <Image
-                    src={`${basAPI}${userDetails?.avatar || "../default-logo"}`}
+                    src={`${basAPI}${
+                      userDetails?.avatar || "/path/to/default/image.png"
+                    }`}
                     width={500}
                     height={300}
                     className="rounded-full"

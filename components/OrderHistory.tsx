@@ -1,5 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaTimesCircle } from "react-icons/fa";
@@ -26,20 +25,20 @@ type RestaurantData = {
 
 type MealData = {
   id: number;
-  name: string;
+  title: string;
   price: number;
 };
 
 type OrderDetailsData = {
   id: number;
-  meal: MealData;
+  product: MealData;
   quantity: number;
   sub_total: number;
 };
 
 type DriverData = {
   id: number;
-  name: string;
+  name?: string;
   avatar: string;
   phone: string;
   address: string;
@@ -60,20 +59,23 @@ const OrderHistory: NextPage = () => {
   const [orderHistory, setOrderHistory] = useState<OrderHistoryItem[]>([]);
   const router = useRouter();
   const user = useSelector(selectUser);
-  let userData = user;
+  console.log("order history==>", orderHistory)
 
-  const fetchOrderHistory = async () => {
+  const fetchOrderHistory = useCallback(async () => {
     try {
-      let response = await fetch(`${basAPI}/orders/customer/order/history/`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+      let response = await fetch(
+        `${basAPI}/orders/customer/order/history/`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            access_token: user.token,
+          }),
         },
-        body: JSON.stringify({
-          access_token: user.token,
-        }),
-      });
+      );
 
       let responseJson = await response.json();
 
@@ -81,16 +83,16 @@ const OrderHistory: NextPage = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [user?.token]);
 
   useEffect(() => {
-    fetchOrderHistory();
-  }, []);
+    fetchOrderHistory(); // Call fetchOrderHistory directly
+  }, [fetchOrderHistory]);
 
   return (
     <div>
       <div className="flex-row items-center justify-between p-5">
-        <Link href="/Home">
+        <Link href="/">
           <FaTimesCircle color="#004AAD" size={30} />
         </Link>
         <p className="text-lg font-light text-white">Ajuda</p>
@@ -99,28 +101,32 @@ const OrderHistory: NextPage = () => {
         {orderHistory.map((order, index) => (
           <div key={index} className="mb-4 border border-gray-300 p-4 rounded">
             <div className="flex-row items-center mb-2">
-              <Image
-                src={order.customer.avatar}
-                alt={order.customer.name}
-                width={48}
-                height={48}
-                className="w-12 h-12 rounded-full mr-2"
-              />
-              <div>
-                <p className="font-bold">{order.customer.name}</p>
-                <p>{order.customer.phone}</p>
-              </div>
+              {order.driver && (
+                <>
+                  <Image
+                    src={order.driver.avatar}
+                    alt={order.driver.name || "Driver Avatar"}
+                    width={48}
+                    height={48}
+                    className="w-12 h-12 rounded-full mr-2"
+                  />
+                  <div>
+                    <p className="font-bold">{order.driver.name}</p>
+                    <p>{order.driver.phone}</p>
+                  </div>
+                </>
+              )}
             </div>
+
             <div className="mb-2">
-              <p className="font-bold text-lg">{order.driver.name}</p>
-              <p className="text-gray-500">{order.driver.phone}</p>
+
               <p className="font-bold text-green-500">{order.status}</p>
             </div>
             <div className="mb-2">
               {order.order_details.map((detail, detailIndex) => (
                 <div key={detailIndex} className="mb-2">
-                  <p>{detail.meal.name}</p>
-                  <p>Quantity: {detail.quantity}</p>
+                  <p>{detail.product.title}</p>
+                  <p>Quantidade: {detail.quantity}</p>
                   <p>Subtotal: {detail.sub_total}</p>
                 </div>
               ))}
