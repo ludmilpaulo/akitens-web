@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { basAPI, Category, useHeaderData } from "@/configs/variable";
-
 import { Eye, EyeOff } from "lucide-react";
 
 const SignupScreen = () => {
@@ -19,9 +18,7 @@ const SignupScreen = () => {
   const [password, setPassword] = useState("");
   const [shop_category, setShop_category] = useState("");
   const [category, setCategory] = useState<Category[]>([]);
-
   const dispatch = useDispatch();
-
   const [signupData, setSignupData] = useState({
     username: "",
     email: "",
@@ -33,13 +30,10 @@ const SignupScreen = () => {
     logo: null as File | null,
     restaurant_license: null as File | null,
   });
-
   const [loading, setLoading] = useState(false);
   const [logoLoading, setLogoLoading] = useState(false);
   const [licencaLoading, setLicencaLoading] = useState(false);
-
   const headerData = useHeaderData();
-
   const [role, setRole] = useState<"client" | "restaurant">("client");
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -121,7 +115,7 @@ const SignupScreen = () => {
           (key) => {
             const value = signupData[key];
             if (value !== null) formData.append(key, value as Blob | string);
-          },
+          }
         );
 
         // Append other form data fields here if needed
@@ -160,7 +154,10 @@ const SignupScreen = () => {
         } else if (resJson.is_customer === true) {
           router.push("/ShopsCategories"); // Redirect to ShopsCategories if the user is a customer
         }
-      } else if (typeof resJson.user === "object" && resJson.user !== null) {
+      } else if (
+        typeof resJson.user === "object" &&
+        resJson.user !== null
+      ) {
         dispatch(loginUser(resJson));
 
         router.push("/ShopsCategories");
@@ -174,15 +171,7 @@ const SignupScreen = () => {
   };
 
   return (
-    <div
-      className="w-full min-h-screen px-4 py-16 flex items-center justify-center"
-      style={{
-        backgroundImage: `url(${headerData?.backgroundApp})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <div className="w-full min-h-screen px-4 py-16 flex items-center justify-center">
       <div className="relative flex flex-col items-center justify-center w-full max-w-lg bg-white rounded shadow-lg">
         <motion.div
           animate={{
@@ -200,33 +189,19 @@ const SignupScreen = () => {
               className="w-64 h-64"
             />
           </div>
-
-          <h1
-            tabIndex={0}
-            aria-label="Login to your account"
-            className="text-2xl font-extrabold leading-6 text-gray-800"
-          >
+          <h1 className="text-2xl font-extrabold leading-6 text-gray-800">
             Inscreva-se Para ter uma Conta
           </h1>
-          <br></br>
 
           <Link href={"/LoginScreenUser"}>
             <p className="mt-4 text-sm font-medium leading-none text-gray-500">
               Se você tem uma conta?{" "}
-              <span
-                tabIndex={0}
-                role="link"
-                aria-label="Sign up here"
-                className="text-sm font-medium leading-none text-gray-800 underline cursor-pointer"
-              >
-                {" "}
+              <span className="text-gray-800 underline cursor-pointer">
                 Entre aqui
               </span>
             </p>
-            <br></br>
           </Link>
 
-          {/* Role selection */}
           <div className="mb-4">
             <label className="mr-4">
               <input
@@ -249,7 +224,7 @@ const SignupScreen = () => {
               Fornecedor de Negocio
             </label>
           </div>
-          <br></br>
+
           <Transition
             show={loading}
             enter="transition-opacity duration-300"
@@ -287,12 +262,12 @@ const SignupScreen = () => {
                   name="password"
                   placeholder="Senha"
                   onChange={handleInputChange}
-                  className="p-2 w-full border rounded" // Remove relative positioning from the input field
+                  className="p-2 w-full border rounded"
                 />
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute inset-y-0 right-0 flex items-center justify-center h-full px-3" // Position the button absolutely to the top right corner of the container
+                  className="absolute inset-y-0 right-0 flex items-center justify-center h-full px-3"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -318,7 +293,6 @@ const SignupScreen = () => {
                     onChange={handleInputChange}
                     className="p-2 border rounded"
                   />
-
                   <div className="relative">
                     <input
                       type="file"
@@ -367,14 +341,6 @@ const SignupScreen = () => {
                           </option>
                         ))}
                       </select>
-                      {/*
-                        <input
-                          type="text"
-                          placeholder="Digite a categoria"
-                          value={shop_category}
-                          onChange={(e) => setShop_category(e.target.value)}
-                          className="flex-none p-2 border"
-                        />*/}
                     </div>
                   </div>
                 </>
@@ -382,7 +348,7 @@ const SignupScreen = () => {
 
               <div className="mt-8">
                 <button
-                  type="submit" // Set the button type to submit
+                  type="submit"
                   aria-label="Entrar na minha conta"
                   className="w-full py-4 text-sm font-semibold leading-none text-white bg-black border rounded focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:outline-none hover:bg-indigo-600"
                 >
