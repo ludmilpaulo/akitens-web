@@ -1,8 +1,10 @@
 "use client";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Transition } from "@headlessui/react";
 import { Dialog } from '@headlessui/react';
 import { AboutUsData, basAPI, fetchAboutUsData } from '@/configs/variable';
+
 
 interface Career {
   id: number;
@@ -25,29 +27,32 @@ const Careers: React.FC = () => {
     resume: null,
   });
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [aboutUsData, setAboutUsData] = useState<AboutUsData | null>(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get<Career[]>(`${basAPI}/careers/careers/`);
+        setCareers(response.data);
+      } catch (error) {
+        setError('Failed to fetch careers data');
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchAboutUsData();
       setAboutUsData(data);
     };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<Career[]>(`${basAPI}/careers/careers/`);
-        setCareers(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -68,11 +73,14 @@ const Careers: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
 
     const { fullName, email, resume } = formData;
 
     if (!selectedCareer || !fullName || !email || !resume) {
-      alert('Please fill in all fields');
+      setError('Please fill in all fields');
+      setLoading(false);
       return;
     }
 
@@ -83,7 +91,7 @@ const Careers: React.FC = () => {
     formDataToSend.append('resume', resume as File);
 
     try {
-        await axios.post(`${basAPI}/careers/apply-for-job/`, formDataToSend, {
+      await axios.post(`${basAPI}/careers/apply-for-job/`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -98,67 +106,78 @@ const Careers: React.FC = () => {
       setSelectedCareer(null);
       setIsOpen(false);
     } catch (error) {
-      console.error('Error submitting application:', error);
-      alert('Error submitting application. Please try again.');
+      setError('Error submitting application. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div style={{ backgroundImage: `url(${aboutUsData?.backgroundApp})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-    <div className="container mx-auto py-8"
-    >
-      <h1 className="text-3xl font-bold mb-6">Carreiras</h1>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {careers.map(career => (
-          <div key={career.id} className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-2">{career?.title}</h2>
-            <p className="text-gray-600"
-            dangerouslySetInnerHTML={{ __html: career.description }}
-            />
-            <button onClick={() => handleApply(career.id)} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Aplicar
-            </button>
-          </div>
-        ))}
-      </div>
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed z-10 inset-0 overflow-y-auto" >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-            &#8203;
-          </span>
-
-          <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <form onSubmit={handleSubmit}>
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h2 className="text-2xl font-bold mb-4">Apply for {careers.find(career => career.id === selectedCareer)?.title}</h2>
-                <div className="mb-4">
-                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Nome completo</label>
-                  <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                  <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="resume" className="block text-sm font-medium text-gray-700">currículos</label>
-                  <input type="file" id="resume" name="resume" onChange={handleFileChange} className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="submit" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                Enviar inscrição
-                </button>
-                <button onClick={() => setIsOpen(false)} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                  Cancelar
-                </button>
-              </div>
-            </form>
-          </div>
+      <div className="container mx-auto py-8">
+        <h1 className="text-3xl font-bold mb-6">Carreiras</h1>
+        <Transition
+          show={loading}
+          enter="transition-opacity duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          {(ref) => (
+            <div ref={ref} className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
+              <div className="w-32 h-32 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+            </div>
+          )}
+        </Transition>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {careers.map(career => (
+            <div key={career.id} className="p-6 bg-white rounded-lg shadow">
+              <h2 className="text-xl font-semibold mb-2 text-black">{career?.title}</h2>
+              <p className="text-gray-600" dangerouslySetInnerHTML={{ __html: career.description }} />
+              <button onClick={() => handleApply(career.id)} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Aplicar
+              </button>
+            </div>
+          ))}
         </div>
-      </Dialog>
-    </div>
+        <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+              &#8203;
+            </span>
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <form onSubmit={handleSubmit}>
+                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <h2 className="text-2xl font-bold mb-4">Apply for {careers.find(career => career.id === selectedCareer)?.title}</h2>
+                  <div className="mb-4">
+                    <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Nome completo</label>
+                    <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="resume" className="block text-sm font-medium text-gray-700">Currículo</label>
+                    <input type="file" id="resume" name="resume" onChange={handleFileChange} className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                  </div>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <button type="submit" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    Enviar inscrição
+                  </button>
+                  <button onClick={() => setIsOpen(false)} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </Dialog>
+      </div>
     </div>
   );
 };
