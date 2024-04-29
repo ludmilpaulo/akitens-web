@@ -47,7 +47,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative w-full"
+      className="relative w-full bg-gray-900"
       style={{
         backgroundImage: `url(${headerData?.backgroundImage})`,
         backgroundSize: "cover",
@@ -55,9 +55,9 @@ export default function Footer() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="mx-auto w-full max-w-7xl px-8">
-        <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2">
-          <div>
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="flex items-center justify-center md:justify-start">
             {/* Using Next.js Image component for the logo */}
             <div className="mb-6">
               <Image
@@ -68,59 +68,61 @@ export default function Footer() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-4 text-[#FFFFFF] justify-end">
-  <ul className="mb-3 font-extrabold opacity-40 text-[#FFFFFF]">
-    {/* Use Next.js Link component to handle navigation */}
-    <li className="text-[#FFFFFF] font-extrabold">
-      <Link href="/AboutUs">
-        <span>Sobre nós</span>
-      </Link>
-    </li>
-    <li className="text-[#FFFFFF] font-extrabold">
-      <Link href="/Careers">
-        <span>Carreiras</span>
-      </Link>
-    </li>
-  </ul>
-</div>
-
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-white justify-end">
+            <ul className="mb-3 font-bold opacity-70 text-white">
+              {/* Use Next.js Link component to handle navigation */}
+              <li className="text-white font-bold">
+                <Link href="/AboutUs">
+                  <span>Sobre nós</span>
+                </Link>
+              </li>
+              <li className="text-white font-bold">
+                <Link href="/Careers">
+                  <span>Carreiras</span>
+                </Link>
+              
+              </li>
+              <li className="text-white font-bold">
+                <Link href="/ContactPage">
+                  <span>Contact Nos</span>
+                </Link>
+              
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
-          <div className="mb-4 text-center font-extrabold text-white md:mb-0">
+        <div className="mt-12 flex flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
+          <div className="mb-4 text-center font-bold text-white md:mb-0">
             &copy; {currentYear}{" "}
-            <a href="" className="text-white">
-              Maindo
-            </a>
+            <Link href="" className="text-white">
+             <span> Maindo</span>
+            </Link>
             . All Rights Reserved.
           </div>
-          <div className="flex gap-4 text-white sm:justify-center">
-          <motion.div
-  initial={{
-    x: -500,
-    opacity: 0,
-    scale: 0.5,
-  }}
-  animate={{
-    x: 0,
-    opacity: 1,
-    scale: 1,
-  }}
-  transition={{
-    duration: 2,
-  }}
-  className="flex flex-row items-center"
->
-  <>
-    {headerData?.facebook && <SocialIcon url={headerData.facebook} />}
-    {headerData?.linkedin && <SocialIcon url={headerData.linkedin} />}
-    {headerData?.twitter && <SocialIcon url={headerData.twitter} />}
-   
-    {headerData?.instagram && <SocialIcon url={headerData.instagram} />}
-  </>
-</motion.div>
-
-
+          <div className="flex gap-4 text-white justify-center md:justify-end">
+            <motion.div
+              initial={{
+                x: -500,
+                opacity: 0,
+                scale: 0.5,
+              }}
+              animate={{
+                x: 0,
+                opacity: 1,
+                scale: 1,
+              }}
+              transition={{
+                duration: 2,
+              }}
+              className="flex flex-row items-center"
+            >
+              <>
+                {headerData?.facebook && <SocialIcon url={headerData.facebook} />}
+                {headerData?.linkedin && <SocialIcon url={headerData.linkedin} />}
+                {headerData?.twitter && <SocialIcon url={headerData.twitter} />}
+                {headerData?.instagram && <SocialIcon url={headerData.instagram} />}
+              </>
+            </motion.div>
           </div>
         </div>
       </div>
