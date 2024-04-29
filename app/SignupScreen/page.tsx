@@ -150,7 +150,7 @@ const SignupScreen = () => {
           typeof resJson.fornecedor_id === "object" &&
           resJson.fornecedor_id !== null
         ) {
-          router.push("/RestaurantDashboad"); // Redirect to Dashboard
+          router.push("/ShopDashboard"); // Redirect to Dashboard
         } else if (resJson.is_customer === true) {
           router.push("/ShopsCategories"); // Redirect to ShopsCategories if the user is a customer
         }
