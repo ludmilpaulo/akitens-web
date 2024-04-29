@@ -112,7 +112,7 @@ function HeaderTopArea() {
           </button>
         </form>
 
-        <div className="flex space-x-5 mt-5 md:mt-0 font-extrabold text-2xl bg-[#51718b] text-[#FFFFFF]">
+        <div className="flex space-x-5 mt-5 md:mt-0 font-extrabold text-2xl text-[#FFFFFF]">
           <Link href={"/ShopsCategories"} passHref>
             <div className="hidden xl:flex font-bold items-center space-x-2 text-sm">
               <Grid2X2 size={20} />

@@ -62,27 +62,28 @@ export default function Footer() {
             <div className="mb-6">
               <Image
                 src={headerData?.logo ?? "/default-logo.png"}
-                alt="Material Tailwind Logo"
+                alt="Material Aki Tens"
                 width={200}
                 height={50}
               />
             </div>
           </div>
-          <div className="grid grid-cols-3 justify-between gap-4 ">
-          <ul className="mb-3 font-medium opacity-40 bg-[#51718b] text-[#FFFFFF]">
-        {/* Use Next.js Link component to handle navigation */}
-        <li>
-          <Link href="/AboutUs">
-            <span>Sobre nós</span>
-          </Link>
-        </li>
-        <li>
-          <Link href="/Careers">
-            <span>Carreiras</span>
-          </Link>
-        </li>
-      </ul>
-            </div>
+          <div className="grid grid-cols-3 gap-4 text-[#FFFFFF] justify-end">
+  <ul className="mb-3 font-extrabold opacity-40 text-[#FFFFFF]">
+    {/* Use Next.js Link component to handle navigation */}
+    <li className="text-[#FFFFFF] font-extrabold">
+      <Link href="/AboutUs">
+        <span>Sobre nós</span>
+      </Link>
+    </li>
+    <li className="text-[#FFFFFF] font-extrabold">
+      <Link href="/Careers">
+        <span>Carreiras</span>
+      </Link>
+    </li>
+  </ul>
+</div>
+
 
         </div>
         <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
