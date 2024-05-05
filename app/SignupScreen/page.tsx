@@ -242,7 +242,7 @@ const SignupScreen = () => {
           </Transition>
 
           {!loading && (
-            <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-4 text-black">
               <input
                 name="username"
                 placeholder="Usuario"
@@ -254,7 +254,7 @@ const SignupScreen = () => {
                 name="email"
                 placeholder="Email"
                 onChange={handleInputChange}
-                className="p-2 border rounded"
+                className="p-2 border rounded text-black"
               />
               <div className="relative">
                 <input
@@ -262,7 +262,7 @@ const SignupScreen = () => {
                   name="password"
                   placeholder="Senha"
                   onChange={handleInputChange}
-                  className="p-2 w-full border rounded"
+                  className="p-2 w-full border rounded text-black"
                 />
                 <button
                   type="button"
@@ -279,7 +279,7 @@ const SignupScreen = () => {
                     name="name"
                     placeholder="Nome do Fornecedor ou do Negocio"
                     onChange={handleInputChange}
-                    className="p-2 border rounded"
+                    className="p-2 border rounded text-black"
                   />
                   <input
                     name="phone"
@@ -291,7 +291,7 @@ const SignupScreen = () => {
                     name="address"
                     placeholder="Endereço"
                     onChange={handleInputChange}
-                    className="p-2 border rounded"
+                    className="p-2 border rounded text-black"
                   />
                   <div className="relative">
                     <input
