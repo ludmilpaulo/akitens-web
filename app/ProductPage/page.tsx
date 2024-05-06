@@ -182,7 +182,7 @@ const ProductPage = () => {
               className="bg-green-500 hover:bg-black/50"
               onClick={handleAdd}
             >
-              Add to Cart
+              Adicionar ao Carrinho
             </Button>
           )}
 

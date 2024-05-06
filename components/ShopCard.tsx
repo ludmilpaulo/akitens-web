@@ -50,7 +50,7 @@ export default function ShopCard({ shopData }: ShopCardProps) {
           >
             <button
               onClick={() => router.push(`/ProductList?shopId=${shop.id}`)} // Programmatically navigate to ProductList with shopId
-              className="mt-auto w-full bg-black hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded"
+              className="mt-auto w-full bg-yellow-400 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded"
             >
               Ver produtos de {shop.name}
             </button>
